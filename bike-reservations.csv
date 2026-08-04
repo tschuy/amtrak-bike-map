@@ -1,0 +1,899 @@
+route_name,station_code,bike_reservations
+Acela Express,BAL,no
+Acela Express,BBY,no
+Acela Express,BOS,no
+Acela Express,BWI,no
+Acela Express,MET,no
+Acela Express,NHV,no
+Acela Express,NYP,no
+Acela Express,NWK,no
+Acela Express,PHL,no
+Acela Express,PVD,no
+Acela Express,RTE,no
+Acela Express,STM,no
+Acela Express,WAS,no
+Acela Express,WIL,no
+Adirondack,ALB,no
+Adirondack,CRT,no
+Adirondack,FED,no
+Adirondack,HUD,no
+Adirondack,MTR,no
+Adirondack,NYP,no
+Adirondack,PLB,no
+Adirondack,POH,no
+Adirondack,POU,no
+Adirondack,RHI,no
+Adirondack,RSP,no
+Adirondack,SAR,no
+Adirondack,SDY,no
+Adirondack,SLQ,no
+Adirondack,FTC,no
+Adirondack,WSP,no
+Adirondack,WHL,no
+Adirondack,YNY,no
+Amtrak Cascades,ALY,yes
+Amtrak Cascades,BEL,yes
+Amtrak Cascades,CTL,yes
+Amtrak Cascades,EDM,yes
+Amtrak Cascades,EUG,yes
+Amtrak Cascades,EVR,yes
+Amtrak Cascades,KEL,yes
+Amtrak Cascades,MVW,yes
+Amtrak Cascades,OLW,yes
+Amtrak Cascades,ORC,yes
+Amtrak Cascades,PDX,yes
+Amtrak Cascades,SLM,yes
+Amtrak Cascades,SEA,yes
+Amtrak Cascades,STW,yes
+Amtrak Cascades,TAC,yes
+Amtrak Cascades,TUK,yes
+Amtrak Cascades,VAC,yes
+Amtrak Cascades,VAN,yes
+Auto Train,LOR,no
+Auto Train,SFA,no
+Berkshire Flyer,ALB,yes
+Berkshire Flyer,CRT,yes
+Berkshire Flyer,HUD,yes
+Berkshire Flyer,NYP,yes
+Berkshire Flyer,PIT,yes
+Berkshire Flyer,POU,yes
+Berkshire Flyer,RHI,yes
+Berkshire Flyer,YNY,yes
+Blue Water,BTL,yes
+Blue Water,CHI,yes
+Blue Water,DOA,yes
+Blue Water,DRD,yes
+Blue Water,LNS,yes
+Blue Water,FLN,yes
+Blue Water,KAL,yes
+Blue Water,LPE,yes
+Blue Water,NBU,yes
+Blue Water,NLS,yes
+Blue Water,PTH,yes
+Borealis,CHI,no
+Borealis,CBS,no
+Borealis,GLN,no
+Borealis,LSE,no
+Borealis,MKE,no
+Borealis,MKA,no
+Borealis,POG,no
+Borealis,RDW,no
+Borealis,MSP,no
+Borealis,SVT,no
+Borealis,TOH,no
+Borealis,WIN,no
+Borealis,WDL,no
+California Zephyr,BRL,no
+California Zephyr,CHI,yes
+California Zephyr,COX,no
+California Zephyr,CRN,no
+California Zephyr,DAV,no
+California Zephyr,DEN,yes
+California Zephyr,ELK,no
+California Zephyr,EMY,yes
+California Zephyr,FMG,no
+California Zephyr,WIP,yes
+California Zephyr,GBB,yes
+California Zephyr,GSC,no
+California Zephyr,GRA,no
+California Zephyr,GJT,no
+California Zephyr,GRI,no
+California Zephyr,HAS,no
+California Zephyr,HER,no
+California Zephyr,HLD,no
+California Zephyr,LNK,no
+California Zephyr,MTZ,yes
+California Zephyr,MCK,no
+California Zephyr,MTP,no
+California Zephyr,NPV,no
+California Zephyr,OMA,yes
+California Zephyr,OSC,no
+California Zephyr,OTM,yes
+California Zephyr,PCT,no
+California Zephyr,PRO,no
+California Zephyr,RNO,yes
+California Zephyr,RIC,no
+California Zephyr,RSV,no
+California Zephyr,SAC,yes
+California Zephyr,SLC,yes
+California Zephyr,TRU,no
+California Zephyr,WNN,no
+Capitol Corridor,ARN,unreserved
+Capitol Corridor,BKY,unreserved
+Capitol Corridor,DAV,unreserved
+Capitol Corridor,EMY,unreserved
+Capitol Corridor,FFV,unreserved
+Capitol Corridor,FMT,unreserved
+Capitol Corridor,HAY,unreserved
+Capitol Corridor,MTZ,unreserved
+Capitol Corridor,OAC,unreserved
+Capitol Corridor,OKJ,unreserved
+Capitol Corridor,RIC,unreserved
+Capitol Corridor,RLN,unreserved
+Capitol Corridor,RSV,unreserved
+Capitol Corridor,SAC,unreserved
+Capitol Corridor,SJC,unreserved
+Capitol Corridor,GAC,unreserved
+Capitol Corridor,SCC,unreserved
+Capitol Corridor,SUI,unreserved
+Cardinal,ALD,no
+Cardinal,ALX,yes
+Cardinal,AKY,no
+Cardinal,BAL,yes
+Cardinal,CHW,yes
+Cardinal,CVS,yes
+Cardinal,CHI,yes
+Cardinal,CIN,yes
+Cardinal,CLF,no
+Cardinal,COI,no
+Cardinal,CRF,yes
+Cardinal,CLP,no
+Cardinal,DYE,yes
+Cardinal,HIN,no
+Cardinal,HUN,no
+Cardinal,IND,yes
+Cardinal,LAF,yes
+Cardinal,MSS,no
+Cardinal,MAY,no
+Cardinal,MNG,no
+Cardinal,NYP,yes
+Cardinal,NWK,yes
+Cardinal,PHL,yes
+Cardinal,PRC,yes
+Cardinal,REN,yes
+Cardinal,SPM,no
+Cardinal,STA,no
+Cardinal,THN,no
+Cardinal,TRE,no
+Cardinal,WAS,yes
+Cardinal,WSS,no
+Cardinal,WIL,yes
+Carolinian,ALX,yes
+Carolinian,BAL,yes
+Carolinian,BNC,yes
+Carolinian,CYN,yes
+Carolinian,CLT,yes
+Carolinian,DNC,yes
+Carolinian,FBG,no
+Carolinian,GRO,yes
+Carolinian,HPT,yes
+Carolinian,KAN,yes
+Carolinian,NYP,yes
+Carolinian,NWK,yes
+Carolinian,PTB,yes
+Carolinian,PHL,yes
+Carolinian,QAN,no
+Carolinian,RGH,yes
+Carolinian,RVR,yes
+Carolinian,RMT,yes
+Carolinian,SAL,yes
+Carolinian,SSM,no
+Carolinian,TRE,no
+Carolinian,WAS,yes
+Carolinian,WIL,yes
+Carolinian,WLN,yes
+City of New Orleans,BRH,no
+City of New Orleans,CDL,yes
+City of New Orleans,CEN,no
+City of New Orleans,CHM,yes
+City of New Orleans,CHI,yes
+City of New Orleans,EFG,no
+City of New Orleans,FTN,no
+City of New Orleans,GWD,no
+City of New Orleans,HMD,yes
+City of New Orleans,HAZ,no
+City of New Orleans,HMW,no
+City of New Orleans,JAN,yes
+City of New Orleans,KKI,no
+City of New Orleans,MKS,no
+City of New Orleans,MAT,no
+City of New Orleans,MCB,no
+City of New Orleans,MEM,yes
+City of New Orleans,NOL,yes
+City of New Orleans,NBN,no
+City of New Orleans,YAZ,no
+Coast Starlight,ALY,yes
+Coast Starlight,BUR,no
+Coast Starlight,CTL,no
+Coast Starlight,CMO,no
+Coast Starlight,CIC,no
+Coast Starlight,DAV,no
+Coast Starlight,DUN,no
+Coast Starlight,EMY,yes
+Coast Starlight,EUG,yes
+Coast Starlight,KEL,no
+Coast Starlight,KFS,no
+Coast Starlight,LAX,yes
+Coast Starlight,MTZ,yes
+Coast Starlight,OKJ,yes
+Coast Starlight,OLW,no
+Coast Starlight,OXN,yes
+Coast Starlight,PRB,no
+Coast Starlight,PDX,yes
+Coast Starlight,RDD,no
+Coast Starlight,SAC,yes
+Coast Starlight,SLM,yes
+Coast Starlight,SNS,yes
+Coast Starlight,SJC,yes
+Coast Starlight,SLO,yes
+Coast Starlight,SBA,yes
+Coast Starlight,SEA,yes
+Coast Starlight,SIM,no
+Coast Starlight,TAC,yes
+Coast Starlight,VNC,yes
+Coast Starlight,VAN,no
+Crescent,ALX,yes
+Crescent,ATN,no
+Crescent,ATL,yes
+Crescent,BAL,yes
+Crescent,BHM,yes
+Crescent,BWI,yes
+Crescent,CLT,no
+Crescent,CVS,yes
+Crescent,CSN,no
+Crescent,CLP,no
+Crescent,DAN,no
+Crescent,GNS,no
+Crescent,GAS,no
+Crescent,GRO,yes
+Crescent,GRV,no
+Crescent,HBG,no
+Crescent,HPT,yes
+Crescent,LAU,no
+Crescent,LYH,yes
+Crescent,MSS,no
+Crescent,MEI,yes
+Crescent,MET,yes
+Crescent,NOL,yes
+Crescent,NYP,yes
+Crescent,NWK,yes
+Crescent,PHL,yes
+Crescent,PIC,no
+Crescent,SAL,yes
+Crescent,SDL,no
+Crescent,SPB,no
+Crescent,TCA,no
+Crescent,TRE,no
+Crescent,TCL,yes
+Crescent,WAS,yes
+Crescent,WIL,yes
+Downeaster,BON,yes
+Downeaster,BRK,yes
+Downeaster,DOV,yes
+Downeaster,DHM,yes
+Downeaster,EXR,yes
+Downeaster,FRE,yes
+Downeaster,HHL,yes
+Downeaster,ORB,yes
+Downeaster,POR,yes
+Downeaster,SAO,yes
+Downeaster,WEM,yes
+Downeaster,WOB,yes
+Empire Builder,BNG,no
+Empire Builder,BRO,yes
+Empire Builder,CHI,yes
+Empire Builder,CBS,yes
+Empire Builder,CUT,no
+Empire Builder,DLK,no
+Empire Builder,DVL,no
+Empire Builder,GPK,yes
+Empire Builder,EDM,yes
+Empire Builder,EPH,no
+Empire Builder,ESM,no
+Empire Builder,EVR,yes
+Empire Builder,FAR,yes
+Empire Builder,GGW,no
+Empire Builder,GLN,no
+Empire Builder,GFK,no
+Empire Builder,HAV,yes
+Empire Builder,LSE,yes
+Empire Builder,LWA,no
+Empire Builder,LIB,no
+Empire Builder,MAL,no
+Empire Builder,MKE,yes
+Empire Builder,MOT,yes
+Empire Builder,PSC,no
+Empire Builder,POG,no
+Empire Builder,PDX,no
+Empire Builder,RDW,no
+Empire Builder,RUG,no
+Empire Builder,SPT,no
+Empire Builder,SEA,yes
+Empire Builder,SBY,yes
+Empire Builder,SPK,yes
+Empire Builder,SCD,no
+Empire Builder,MSP,yes
+Empire Builder,STN,no
+Empire Builder,SPL,no
+Empire Builder,TOH,no
+Empire Builder,VAN,no
+Empire Builder,WEN,no
+Empire Builder,WGL,yes
+Empire Builder,WFH,yes
+Empire Builder,WTN,yes
+Empire Builder,WIN,yes
+Empire Builder,WDL,no
+Empire Builder,WIH,no
+Empire Builder,WPT,no
+Empire Service,ALB,yes
+Empire Service,AMS,yes
+Empire Service,BUF,yes
+Empire Service,BFX,yes
+Empire Service,CRT,yes
+Empire Service,HUD,yes
+Empire Service,NYP,yes
+Empire Service,NYF,yes
+Empire Service,NFL,yes
+Empire Service,POU,yes
+Empire Service,RHI,yes
+Empire Service,ROC,yes
+Empire Service,ROM,yes
+Empire Service,SDY,yes
+Empire Service,SYR,yes
+Empire Service,UCA,yes
+Empire Service,YNY,yes
+Ethan Allen Express,ALB,yes
+Ethan Allen Express,BTN,yes
+Ethan Allen Express,CNV,yes
+Ethan Allen Express,CRT,yes
+Ethan Allen Express,VRN,yes
+Ethan Allen Express,FED,yes
+Ethan Allen Express,HUD,yes
+Ethan Allen Express,MBY,yes
+Ethan Allen Express,NYP,yes
+Ethan Allen Express,POU,yes
+Ethan Allen Express,RHI,yes
+Ethan Allen Express,RUD,yes
+Ethan Allen Express,SAR,yes
+Ethan Allen Express,SDY,yes
+Ethan Allen Express,YNY,yes
+Floridian,ALX,no
+Floridian,ALC,yes
+Floridian,CAM,no
+Floridian,CYN,yes
+Floridian,CHI,yes
+Floridian,CLE,yes
+Floridian,CLB,yes
+Floridian,COV,yes
+Floridian,CUM,yes
+Floridian,DFB,no
+Floridian,DLD,yes
+Floridian,DLB,no
+Floridian,DNK,no
+Floridian,EKH,yes
+Floridian,ELY,yes
+Floridian,FTL,yes
+Floridian,HAM,no
+Floridian,HFY,yes
+Floridian,HOL,no
+Floridian,JAX,yes
+Floridian,KIS,yes
+Floridian,LAK,yes
+Floridian,MRB,yes
+Floridian,MIA,yes
+Floridian,OKE,no
+Floridian,ORL,yes
+Floridian,PAK,no
+Floridian,PTB,yes
+Floridian,PGH,yes
+Floridian,RGH,yes
+Floridian,RVR,yes
+Floridian,RKV,yes
+Floridian,RMT,yes
+Floridian,SKY,yes
+Floridian,SAV,yes
+Floridian,SBG,no
+Floridian,SOB,yes
+Floridian,SOP,no
+Floridian,TPA,yes
+Floridian,TOL,yes
+Floridian,WAS,yes
+Floridian,WTI,yes
+Floridian,WPB,yes
+Floridian,WTH,yes
+Floridian,WPK,yes
+Hartford Line,BER,yes
+Hartford Line,HFD,yes
+Hartford Line,MDN,yes
+Hartford Line,NHV,yes
+Hartford Line,STS,yes
+Hartford Line,SPG,yes
+Hartford Line,WFD,yes
+Hartford Line,WND,yes
+Hartford Line,WNL,yes
+Heartland Flyer,ADM,no
+Heartland Flyer,FTW,no
+Heartland Flyer,GLE,no
+Heartland Flyer,NOR,no
+Heartland Flyer,OKC,no
+Heartland Flyer,PVL,no
+Heartland Flyer,PUR,no
+Hiawatha Service,CHI,yes
+Hiawatha Service,GLN,yes
+Hiawatha Service,MKE,yes
+Hiawatha Service,MKA,yes
+Hiawatha Service,SVT,yes
+Illini and Saluki,CDL,yes
+Illini and Saluki,CEN,yes
+Illini and Saluki,CHM,yes
+Illini and Saluki,CHI,yes
+Illini and Saluki,DQN,yes
+Illini and Saluki,EFG,yes
+Illini and Saluki,GLM,yes
+Illini and Saluki,HMW,yes
+Illini and Saluki,KKI,yes
+Illini and Saluki,MAT,yes
+Illini and Saluki,RTL,yes
+Illinois Zephyr and Carl Sandburg,CHI,yes
+Illinois Zephyr and Carl Sandburg,GBB,yes
+Illinois Zephyr and Carl Sandburg,KEE,yes
+Illinois Zephyr and Carl Sandburg,LAG,yes
+Illinois Zephyr and Carl Sandburg,MAC,yes
+Illinois Zephyr and Carl Sandburg,MDT,yes
+Illinois Zephyr and Carl Sandburg,NPV,yes
+Illinois Zephyr and Carl Sandburg,PLO,yes
+Illinois Zephyr and Carl Sandburg,PCT,yes
+Illinois Zephyr and Carl Sandburg,QCY,yes
+Keystone Service,ARD,yes
+Keystone Service,COT,yes
+Keystone Service,CWH,yes
+Keystone Service,DOW,yes
+Keystone Service,ELT,yes
+Keystone Service,EXT,yes
+Keystone Service,HAR,yes
+Keystone Service,LNC,yes
+Keystone Service,MET,yes
+Keystone Service,MID,yes
+Keystone Service,MJY,yes
+Keystone Service,NBK,yes
+Keystone Service,NYP,yes
+Keystone Service,EWR,yes
+Keystone Service,NWK,yes
+Keystone Service,PHN,yes
+Keystone Service,PAO,yes
+Keystone Service,PAR,yes
+Keystone Service,PHL,yes
+Keystone Service,PJC,yes
+Keystone Service,TRE,yes
+Lake Shore Limited,ALB,yes
+Lake Shore Limited,BBY,no
+Lake Shore Limited,BOS,no
+Lake Shore Limited,BYN,no
+Lake Shore Limited,BUF,yes
+Lake Shore Limited,CHI,yes
+Lake Shore Limited,CLE,yes
+Lake Shore Limited,CRT,no
+Lake Shore Limited,EKH,no
+Lake Shore Limited,ELY,no
+Lake Shore Limited,ERI,no
+Lake Shore Limited,FRA,no
+Lake Shore Limited,NYP,yes
+Lake Shore Limited,PIT,no
+Lake Shore Limited,POU,no
+Lake Shore Limited,RHI,no
+Lake Shore Limited,ROC,yes
+Lake Shore Limited,SKY,no
+Lake Shore Limited,SDY,yes
+Lake Shore Limited,SOB,yes
+Lake Shore Limited,SPG,no
+Lake Shore Limited,SYR,yes
+Lake Shore Limited,TOL,yes
+Lake Shore Limited,UCA,yes
+Lake Shore Limited,WTI,no
+Lake Shore Limited,WOR,no
+Lincoln Service,ALN,yes
+Lincoln Service,BNL,yes
+Lincoln Service,CRV,yes
+Lincoln Service,CHI,yes
+Lincoln Service,DWT,yes
+Lincoln Service,JOL,yes
+Lincoln Service,LCN,yes
+Lincoln Service,PON,yes
+Lincoln Service,SPI,yes
+Lincoln Service,STL,yes
+Lincoln Service,SMT,yes
+Maple Leaf,ALB,yes
+Maple Leaf,AST,yes
+Maple Leaf,AMS,yes
+Maple Leaf,BUF,yes
+Maple Leaf,BFX,yes
+Maple Leaf,CRT,yes
+Maple Leaf,GMS,yes
+Maple Leaf,HUD,yes
+Maple Leaf,NYP,yes
+Maple Leaf,NYF,yes
+Maple Leaf,NFL,yes
+Maple Leaf,NFS,yes
+Maple Leaf,OKL,yes
+Maple Leaf,POU,yes
+Maple Leaf,RHI,yes
+Maple Leaf,ROC,yes
+Maple Leaf,ROM,yes
+Maple Leaf,SDY,yes
+Maple Leaf,SCA,yes
+Maple Leaf,SYR,yes
+Maple Leaf,TWO,yes
+Maple Leaf,UCA,yes
+Maple Leaf,YNY,yes
+Mardi Gras Service,BAS,no
+Mardi Gras Service,BIX,no
+Mardi Gras Service,GUF,no
+Mardi Gras Service,MOE,no
+Mardi Gras Service,NOL,no
+Mardi Gras Service,PAG,no
+Missouri River Runner,HEM,yes
+Missouri River Runner,IDP,yes
+Missouri River Runner,JEF,yes
+Missouri River Runner,KCY,yes
+Missouri River Runner,KWD,yes
+Missouri River Runner,LEE,yes
+Missouri River Runner,SED,yes
+Missouri River Runner,STL,yes
+Missouri River Runner,WAR,yes
+Missouri River Runner,WAH,yes
+Northeast Regional,ABE,yes
+Northeast Regional,ALX,yes
+Northeast Regional,ASD,yes
+Northeast Regional,BAL,yes
+Northeast Regional,BER,yes
+Northeast Regional,BBY,yes
+Northeast Regional,BOS,yes
+Northeast Regional,BRP,yes
+Northeast Regional,BCV,yes
+Northeast Regional,BWI,yes
+Northeast Regional,CVS,yes
+Northeast Regional,CLP,yes
+Northeast Regional,FBG,yes
+Northeast Regional,HFD,yes
+Northeast Regional,KIN,yes
+Northeast Regional,LYH,yes
+Northeast Regional,MSS,yes
+Northeast Regional,MDN,yes
+Northeast Regional,MET,yes
+Northeast Regional,MYS,yes
+Northeast Regional,NBK,yes
+Northeast Regional,NCR,yes
+Northeast Regional,NHV,yes
+Northeast Regional,STS,yes
+Northeast Regional,NLC,yes
+Northeast Regional,NRO,yes
+Northeast Regional,NYP,yes
+Northeast Regional,NRK,yes
+Northeast Regional,EWR,yes
+Northeast Regional,NWK,yes
+Northeast Regional,NPN,yes
+Northeast Regional,NFK,yes
+Northeast Regional,OSB,yes
+Northeast Regional,PTB,yes
+Northeast Regional,PHL,yes
+Northeast Regional,PJC,yes
+Northeast Regional,PVD,yes
+Northeast Regional,QAN,yes
+Northeast Regional,RVM,yes
+Northeast Regional,RVR,yes
+Northeast Regional,RNK,yes
+Northeast Regional,RTE,yes
+Northeast Regional,SPG,yes
+Northeast Regional,STM,yes
+Northeast Regional,TRE,yes
+Northeast Regional,WFD,yes
+Northeast Regional,WAS,yes
+Northeast Regional,WLY,yes
+Northeast Regional,WBG,yes
+Northeast Regional,WIL,yes
+Northeast Regional,WND,yes
+Northeast Regional,WNL,yes
+Northeast Regional,WDB,yes
+Pacific Surfliner,ANA,yes
+Pacific Surfliner,BUR,yes
+Pacific Surfliner,BBK,yes
+Pacific Surfliner,CML,yes
+Pacific Surfliner,CPN,yes
+Pacific Surfliner,CWT,yes
+Pacific Surfliner,FUL,yes
+Pacific Surfliner,GDL,yes
+Pacific Surfliner,GTA,yes
+Pacific Surfliner,GVB,yes
+Pacific Surfliner,GUA,yes
+Pacific Surfliner,IRV,yes
+Pacific Surfliner,LPS,yes
+Pacific Surfliner,LAX,yes
+Pacific Surfliner,MPK,yes
+Pacific Surfliner,NRG,yes
+Pacific Surfliner,OSD,yes
+Pacific Surfliner,OXN,yes
+Pacific Surfliner,SNP,yes
+Pacific Surfliner,OLT,yes
+Pacific Surfliner,SAN,yes
+Pacific Surfliner,SNC,yes
+Pacific Surfliner,SLO,yes
+Pacific Surfliner,SNA,yes
+Pacific Surfliner,SBA,yes
+Pacific Surfliner,SIM,yes
+Pacific Surfliner,SOL,yes
+Pacific Surfliner,VNC,yes
+Pacific Surfliner,VEC,yes
+Palmetto,ALX,unavailable
+Palmetto,BAL,unavailable
+Palmetto,BWI,unavailable
+Palmetto,CHS,unavailable
+Palmetto,DIL,unavailable
+Palmetto,FAY,unavailable
+Palmetto,FLO,unavailable
+Palmetto,KTR,unavailable
+Palmetto,MET,unavailable
+Palmetto,NCR,unavailable
+Palmetto,NYP,unavailable
+Palmetto,NWK,unavailable
+Palmetto,PTB,unavailable
+Palmetto,PHL,unavailable
+Palmetto,RVR,unavailable
+Palmetto,RMT,unavailable
+Palmetto,SAV,unavailable
+Palmetto,SSM,unavailable
+Palmetto,TRE,unavailable
+Palmetto,WAS,unavailable
+Palmetto,WIL,unavailable
+Palmetto,WLN,unavailable
+Palmetto,YEM,unavailable
+Pennsylvanian,ALT,yes
+Pennsylvanian,ELT,no
+Pennsylvanian,EXT,no
+Pennsylvanian,GNB,no
+Pennsylvanian,HAR,yes
+Pennsylvanian,HGD,no
+Pennsylvanian,JST,yes
+Pennsylvanian,LNC,yes
+Pennsylvanian,LAB,no
+Pennsylvanian,LEW,no
+Pennsylvanian,NYP,yes
+Pennsylvanian,NWK,yes
+Pennsylvanian,PAO,no
+Pennsylvanian,PHL,yes
+Pennsylvanian,PGH,yes
+Pennsylvanian,TRE,no
+Pennsylvanian,TYR,no
+Pere Marquette,BAM,yes
+Pere Marquette,CHI,yes
+Pere Marquette,GRR,yes
+Pere Marquette,HOM,yes
+Pere Marquette,SJM,yes
+Piedmont,BNC,yes
+Piedmont,CYN,yes
+Piedmont,CLT,yes
+Piedmont,DNC,yes
+Piedmont,GRO,yes
+Piedmont,HPT,yes
+Piedmont,KAN,yes
+Piedmont,LEX,yes
+Piedmont,NSF,yes
+Piedmont,RGH,yes
+Piedmont,SAL,yes
+Gold Runner,ACA,unreserved
+Gold Runner,BFD,unreserved
+Gold Runner,COC,unreserved
+Gold Runner,EMY,unreserved
+Gold Runner,FNO,unreserved
+Gold Runner,HNF,unreserved
+Gold Runner,LOD,unreserved
+Gold Runner,MDR,unreserved
+Gold Runner,MTZ,unreserved
+Gold Runner,MCD,unreserved
+Gold Runner,MOD,unreserved
+Gold Runner,OKJ,unreserved
+Gold Runner,RIC,unreserved
+Gold Runner,SAC,unreserved
+Gold Runner,SKT,unreserved
+Gold Runner,SKN,unreserved
+Gold Runner,TRK,unreserved
+Gold Runner,WAC,unreserved
+Silver Meteor,ALX,no
+Silver Meteor,BAL,yes
+Silver Meteor,CHS,yes
+Silver Meteor,DFB,no
+Silver Meteor,DLD,yes
+Silver Meteor,DLB,no
+Silver Meteor,FAY,yes
+Silver Meteor,FLO,yes
+Silver Meteor,FTL,yes
+Silver Meteor,FBG,no
+Silver Meteor,HOL,no
+Silver Meteor,JAX,yes
+Silver Meteor,JSP,no
+Silver Meteor,KTR,no
+Silver Meteor,KIS,yes
+Silver Meteor,MIA,yes
+Silver Meteor,NYP,yes
+Silver Meteor,NWK,yes
+Silver Meteor,ORL,yes
+Silver Meteor,PAK,no
+Silver Meteor,PTB,yes
+Silver Meteor,PHL,yes
+Silver Meteor,RVR,yes
+Silver Meteor,RMT,yes
+Silver Meteor,SAV,yes
+Silver Meteor,SBG,no
+Silver Meteor,TRE,no
+Silver Meteor,WAS,yes
+Silver Meteor,WPB,yes
+Silver Meteor,WIL,yes
+Silver Meteor,WTH,yes
+Silver Meteor,WPK,yes
+Silver Meteor,YEM,no
+Southwest Chief,ABQ,yes
+Southwest Chief,BAR,no
+Southwest Chief,CHI,yes
+Southwest Chief,DDG,no
+Southwest Chief,FLG,yes
+Southwest Chief,FMD,yes
+Southwest Chief,FUL,yes
+Southwest Chief,GBB,yes
+Southwest Chief,GLP,no
+Southwest Chief,GCK,no
+Southwest Chief,HUT,no
+Southwest Chief,KCY,yes
+Southwest Chief,KNG,no
+Southwest Chief,LAJ,yes
+Southwest Chief,LAP,no
+Southwest Chief,LMR,no
+Southwest Chief,LMY,no
+Southwest Chief,LSV,no
+Southwest Chief,LRC,no
+Southwest Chief,LAX,yes
+Southwest Chief,MDT,no
+Southwest Chief,NPV,no
+Southwest Chief,NDL,no
+Southwest Chief,NEW,yes
+Southwest Chief,PCT,no
+Southwest Chief,RAT,yes
+Southwest Chief,RIV,no
+Southwest Chief,SNB,no
+Southwest Chief,TOP,yes
+Southwest Chief,TRI,no
+Southwest Chief,VRV,no
+Southwest Chief,WLO,no
+Sunset Limited,ALP,no
+Sunset Limited,BMT,no
+Sunset Limited,BEN,no
+Sunset Limited,DRT,no
+Sunset Limited,DEM,no
+Sunset Limited,ELP,yes
+Sunset Limited,HOS,yes
+Sunset Limited,LFT,no
+Sunset Limited,LCH,no
+Sunset Limited,LDB,no
+Sunset Limited,LAX,yes
+Sunset Limited,MRC,yes
+Sunset Limited,NIB,no
+Sunset Limited,NOL,yes
+Sunset Limited,ONA,no
+Sunset Limited,PSN,no
+Sunset Limited,POS,no
+Sunset Limited,SAS,yes
+Sunset Limited,SND,no
+Sunset Limited,SCH,no
+Sunset Limited,TUS,yes
+Sunset Limited,YUM,no
+Texas Eagle,ALP,no
+Texas Eagle,ALN,no
+Texas Eagle,ACD,yes
+Texas Eagle,ARK,no
+Texas Eagle,AUS,yes
+Texas Eagle,BEN,no
+Texas Eagle,BNL,yes
+Texas Eagle,CRV,no
+Texas Eagle,CHI,yes
+Texas Eagle,CBR,no
+Texas Eagle,DAL,yes
+Texas Eagle,DRT,no
+Texas Eagle,DEM,no
+Texas Eagle,ELP,no
+Texas Eagle,FTW,yes
+Texas Eagle,HOP,no
+Texas Eagle,JOL,no
+Texas Eagle,LCN,no
+Texas Eagle,LRK,yes
+Texas Eagle,LVW,yes
+Texas Eagle,LDB,no
+Texas Eagle,LAX,no
+Texas Eagle,MVN,no
+Texas Eagle,MRC,no
+Texas Eagle,MHL,no
+Texas Eagle,MCG,no
+Texas Eagle,MIN,no
+Texas Eagle,ONA,no
+Texas Eagle,PSN,no
+Texas Eagle,POS,no
+Texas Eagle,PON,no
+Texas Eagle,PBF,no
+Texas Eagle,SAS,yes
+Texas Eagle,SMC,no
+Texas Eagle,SND,no
+Texas Eagle,SPI,yes
+Texas Eagle,STL,yes
+Texas Eagle,TAY,no
+Texas Eagle,TPL,yes
+Texas Eagle,TXA,no
+Texas Eagle,TUS,no
+Texas Eagle,WNR,no
+Texas Eagle,YUM,no
+Valley Flyer,BER,yes
+Valley Flyer,GFD,yes
+Valley Flyer,HFD,yes
+Valley Flyer,HLK,yes
+Valley Flyer,MDN,yes
+Valley Flyer,NHV,yes
+Valley Flyer,STS,yes
+Valley Flyer,NHT,yes
+Valley Flyer,SPG,yes
+Valley Flyer,WFD,yes
+Valley Flyer,WND,yes
+Valley Flyer,WNL,yes
+Vermonter,BAL,yes
+Vermonter,BLF,yes
+Vermonter,BRA,yes
+Vermonter,BRP,yes
+Vermonter,BWI,yes
+Vermonter,CLA,yes
+Vermonter,ESX,yes
+Vermonter,GFD,yes
+Vermonter,HFD,yes
+Vermonter,HLK,yes
+Vermonter,MDN,yes
+Vermonter,MET,yes
+Vermonter,MPR,yes
+Vermonter,NCR,yes
+Vermonter,NHV,yes
+Vermonter,NYP,yes
+Vermonter,NWK,yes
+Vermonter,NHT,yes
+Vermonter,PHL,yes
+Vermonter,RPH,yes
+Vermonter,SPG,yes
+Vermonter,SAB,yes
+Vermonter,STM,yes
+Vermonter,TRE,yes
+Vermonter,WAS,yes
+Vermonter,WAB,yes
+Vermonter,WRJ,yes
+Vermonter,WIL,yes
+Vermonter,WNM,yes
+Vermonter,WNL,yes
+Winter Park Express,DEN,no
+Winter Park Express,WIP,no
+Winter Park Express,WPR,no
+Wolverine,ALI,yes
+Wolverine,ARB,yes
+Wolverine,BTL,yes
+Wolverine,CHI,yes
+Wolverine,DER,yes
+Wolverine,DET,yes
+Wolverine,DOA,yes
+Wolverine,HMI,yes
+Wolverine,JXN,yes
+Wolverine,KAL,yes
+Wolverine,NBU,yes
+Wolverine,NLS,yes
+Wolverine,PNT,yes
+Wolverine,ROY,yes
+Wolverine,TRM,yes
