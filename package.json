@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "generate:data": "python3 scripts/gtfs_to_geojson.py data/amtrak-gtfs.zip public/amtrak-routes.geojson public/amtrak-stops.geojson public/amtrak-route-summaries.json 51 data/bike-reservations.csv data/routes.csv",
+    "generate:data": "python3 scripts/gtfs_to_geojson.py data/amtrak-gtfs.zip data/gold-runner-gtfs.zip public/amtrak-routes.geojson public/amtrak-stops.geojson public/amtrak-route-summaries.json 51 data/bike-reservations.csv data/routes.csv",
     "dev": "npm run generate:data && vite",
     "build": "npm run generate:data && tsc --noEmit && vite build",
     "preview": "vite preview"

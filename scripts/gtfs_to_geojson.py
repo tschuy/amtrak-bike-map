@@ -50,7 +50,7 @@ def route_bike_rows(route_name, bike_data):
 
 
 def main() -> None:
-    source_path, routes_output, stops_output, summaries_output, agency_id, bike_path, services_path = sys.argv[1:8]
+    source_path, gold_runner_path, routes_output, stops_output, summaries_output, agency_id, bike_path, services_path = sys.argv[1:9]
     bike_data = load_bike_data(bike_path)
     route_services = load_route_services(services_path)
     with zipfile.ZipFile(source_path) as archive:
@@ -75,6 +75,47 @@ def main() -> None:
             if route_id:
                 stop_routes[stop_time["stop_id"]].add(route_id)
         stops = [stop for stop in rows(archive, "stops.txt") if stop["stop_id"] in stop_routes]
+
+    # Gold Runner is Amtrak-branded but published in the separate SJJPA feed.
+    # Only its GR rail route and non-bus-prefixed stops belong on this map.
+    with zipfile.ZipFile(gold_runner_path) as archive:
+        gold_route = next(
+            row for row in rows(archive, "routes.txt")
+            if row["route_id"] == "GR" and row["agency_id"] == "SJJPA"
+        )
+        gold_route = dict(gold_route)
+        gold_route["route_long_name"] = "Gold Runner"
+        gold_route["route_short_name"] = ""
+        routes["GR"] = gold_route
+
+        gold_trips = {
+            trip["trip_id"]: trip["route_id"]
+            for trip in rows(archive, "trips.txt")
+            if trip["route_id"] == "GR"
+        }
+        gold_shapes = {
+            trip["shape_id"] for trip in rows(archive, "trips.txt")
+            if trip["route_id"] == "GR" and trip.get("shape_id")
+        }
+        for shape_id in gold_shapes:
+            shape_routes[f"gold:{shape_id}"] = "GR"
+        for point in rows(archive, "shapes.txt"):
+            if point["shape_id"] in gold_shapes:
+                points[f"gold:{point['shape_id']}"].append((
+                    int(point["shape_pt_sequence"]),
+                    [float(point["shape_pt_lon"]), float(point["shape_pt_lat"])],
+                ))
+
+        gold_stop_ids = set()
+        for stop_time in rows(archive, "stop_times.txt"):
+            if stop_time["trip_id"] in gold_trips and not stop_time["stop_id"].startswith("b"):
+                gold_stop_ids.add(stop_time["stop_id"])
+                stop_routes[stop_time["stop_id"]].add("GR")
+        stops_by_id = {stop["stop_id"]: stop for stop in stops}
+        for stop in rows(archive, "stops.txt"):
+            if stop["stop_id"] in gold_stop_ids:
+                stops_by_id.setdefault(stop["stop_id"], stop)
+        stops = list(stops_by_id.values())
 
     route_features = []
     station_names = {stop.get("stop_code", "").upper(): stop["stop_name"] for stop in stops}
