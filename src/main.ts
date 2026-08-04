@@ -18,6 +18,7 @@ const allRoutes = document.querySelector<HTMLElement>('#all-routes')!
 const mapViewButton = document.querySelector<HTMLButtonElement>('#map-view-button')!
 const listViewButton = document.querySelector<HTMLButtonElement>('#list-view-button')!
 const faqViewButton = document.querySelector<HTMLButtonElement>('#faq-view-button')!
+const homeLink = document.querySelector<HTMLAnchorElement>('#home-link')!
 
 type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
@@ -242,6 +243,11 @@ function setView(view: View, updateHistory = true): void {
 mapViewButton.addEventListener('click', () => setView('map'))
 listViewButton.addEventListener('click', () => setView('list'))
 faqViewButton.addEventListener('click', () => setView('faq'))
+homeLink.addEventListener('click', (event) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  setView('map')
+})
 function viewFromLocation(): View {
   if (window.location.hash === '#faq') return 'faq'
   if (window.location.hash === '#list') return 'list'
