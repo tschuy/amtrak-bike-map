@@ -13,24 +13,24 @@ Acela Express,RTE,no
 Acela Express,STM,no
 Acela Express,WAS,no
 Acela Express,WIL,no
-Adirondack,ALB,no
-Adirondack,CRT,no
-Adirondack,FED,no
-Adirondack,HUD,no
+Adirondack,ALB,yes
+Adirondack,CRT,yes
+Adirondack,FED,yes
+Adirondack,HUD,yes
 Adirondack,MTR,no
-Adirondack,NYP,no
-Adirondack,PLB,no
-Adirondack,POH,no
-Adirondack,POU,no
-Adirondack,RHI,no
-Adirondack,RSP,no
-Adirondack,SAR,no
-Adirondack,SDY,no
+Adirondack,NYP,yes
+Adirondack,PLB,yes
+Adirondack,POH,yes
+Adirondack,POU,yes
+Adirondack,RHI,yes
+Adirondack,RSP,yes
+Adirondack,SAR,yes
+Adirondack,SDY,yes
 Adirondack,SLQ,no
-Adirondack,FTC,no
-Adirondack,WSP,no
-Adirondack,WHL,no
-Adirondack,YNY,no
+Adirondack,FTC,yes
+Adirondack,WSP,yes
+Adirondack,WHL,yes
+Adirondack,YNY,yes
 Amtrak Cascades,ALY,yes
 Amtrak Cascades,BEL,yes
 Amtrak Cascades,CTL,yes
