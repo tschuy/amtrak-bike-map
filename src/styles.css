@@ -110,7 +110,9 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .faq-content > h2 { margin: 0 0 2rem; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); }
 .faq-list { display: grid; gap: 1rem; }
 .faq-list article { padding: 1.25rem 1.4rem; border: 1px solid #d7d1c4; border-radius: .3rem; background: #fffdf7; box-shadow: 0 4px 16px rgba(31,42,36,.07); }
-.faq-list h3 { margin: 0 0 .5rem; font-family: Georgia, serif; font-size: 1.25rem; }
+.faq-list :is(h2, h3) { margin: 0 0 .5rem; font-family: Georgia, serif; }
+.faq-list h2 { font-size: 1.5rem; }
+.faq-list h3 { font-size: 1.25rem; }
 .faq-list p { margin: 0; color: #59635d; line-height: 1.65; }
 .route-card.list-route-card { position: relative; inset: auto; width: auto; padding: 1.2rem; box-shadow: 0 4px 16px rgba(31,42,36,.1); }
 .list-route-card .route-title { color: #9e3025; font-family: Georgia, serif; font-size: 1.35rem; }
