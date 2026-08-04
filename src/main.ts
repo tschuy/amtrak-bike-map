@@ -1,0 +1,208 @@
+import { createTrailheadMap, lonLatView, validateConfig } from 'olmap'
+import type { MapFeatureDetails, TrailheadMapEvent } from 'olmap'
+import 'olmap/styles/openlayers.css'
+import 'olmap/styles/default.css'
+import './styles.css'
+
+const mapElement = document.querySelector<HTMLElement>('#map')!
+const statusElement = document.querySelector<HTMLElement>('#status')!
+const routeCard = document.querySelector<HTMLElement>('#route-card')!
+const cardLabel = document.querySelector<HTMLElement>('#card-label')!
+const routeName = document.querySelector<HTMLElement>('#route-name')!
+const routeList = document.querySelector<HTMLUListElement>('#route-list')!
+const closeCard = document.querySelector<HTMLButtonElement>('#close-card')!
+const mapShell = document.querySelector<HTMLElement>('.map-shell')!
+const listView = document.querySelector<HTMLElement>('#list-view')!
+const allRoutes = document.querySelector<HTMLElement>('#all-routes')!
+const mapViewButton = document.querySelector<HTMLButtonElement>('#map-view-button')!
+const listViewButton = document.querySelector<HTMLButtonElement>('#list-view-button')!
+
+type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
+type BikeStation = { code: string; name: string; status: string; has_access: boolean }
+
+const config = validateConfig({
+  schema_version: 'legacy-1',
+  data_version: '2026-08-04',
+  feeds: {
+    amtrak: {
+      gtfs: { url: '/amtrak-gtfs.zip' },
+      agencies: {
+        '51': { type: 'rail', long_name: 'Amtrak' },
+      },
+    },
+  },
+  feed_groups: {},
+  kml_groups: { hardcoded: {}, generated: {} },
+})
+
+function routeContent(route: RouteInfo): DocumentFragment {
+  const content = document.createDocumentFragment()
+  const url = route.properties.route_url
+  const title = document.createElement(typeof url === 'string' && url ? 'a' : 'span')
+  title.className = 'route-title'
+  title.textContent = route.name
+  if (title instanceof HTMLAnchorElement) {
+    title.href = String(url)
+    title.target = '_blank'
+    title.rel = 'noreferrer'
+  }
+  content.append(title)
+
+  const access = Number(route.properties.bike_access_count)
+  const noAccess = Number(route.properties.bike_no_access_count)
+  const accessPercent = Number(route.properties.bike_access_percent)
+  const noAccessPercent = Number(route.properties.bike_no_access_percent)
+  const statistics = document.createElement('span')
+  statistics.className = 'bike-statistics'
+  statistics.textContent = Number.isFinite(access) && Number.isFinite(noAccess)
+    ? `${access} (${accessPercent.toFixed(1)}%) with bike access · ${noAccess} (${noAccessPercent.toFixed(1)}%) without`
+    : 'Bike access data unavailable'
+  content.append(statistics)
+
+  const encodedStations = route.properties.bike_stations
+  if (typeof encodedStations === 'string') {
+    const stations = JSON.parse(encodedStations) as BikeStation[]
+    const details = document.createElement('details')
+    details.className = 'stop-details'
+    const summary = document.createElement('summary')
+    summary.textContent = `Stop information (${stations.length})`
+    const list = document.createElement('ul')
+    list.className = 'stop-info-list'
+    list.append(...stations.map((station) => {
+      const item = document.createElement('li')
+      item.className = station.has_access ? 'has-access' : 'no-access'
+      const name = document.createElement('span')
+      name.textContent = `${station.name} (${station.code})`
+      const status = document.createElement('span')
+      status.textContent = station.has_access ? `Bike access (${station.status})` : `No bike access (${station.status})`
+      item.append(name, status)
+      return item
+    }))
+    details.append(summary, list)
+    content.append(details)
+  }
+  return content
+}
+
+function showRoutes(features: MapFeatureDetails[]): void {
+  const routes = [...new Map(features.map((feature) => [String(feature.properties.route_id), feature])).values()]
+    .sort((left, right) => left.name.localeCompare(right.name))
+  cardLabel.textContent = routes.length === 1 ? 'Amtrak route' : `${routes.length} Amtrak routes`
+  routeName.textContent = routes.length === 1 ? routes[0].name : 'Routes at this location'
+  routeList.replaceChildren(...routes.map((route) => {
+    const item = document.createElement('li')
+    item.className = 'route-result'
+    item.append(routeContent(route))
+    return item
+  }))
+  routeCard.hidden = false
+}
+
+async function populateRouteList(): Promise<void> {
+  const response = await fetch('/amtrak-route-summaries.json')
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  const data = await response.json() as Array<Record<string, string | number | boolean | null>>
+  const routes = data.map((properties) => ({
+    name: String(properties.route_long_name ?? 'Amtrak route'),
+    properties,
+  } satisfies RouteInfo)).sort((left, right) => left.name.localeCompare(right.name))
+  allRoutes.replaceChildren(...routes.map((route) => {
+    const article = document.createElement('article')
+    article.className = 'route-card list-route-card'
+    article.append(routeContent(route))
+    return article
+  }))
+}
+
+function showStop(feature: MapFeatureDetails): void {
+  cardLabel.textContent = 'Amtrak station'
+  routeName.textContent = feature.name
+  routeList.replaceChildren()
+  const encodedRoutes = feature.properties.bike_routes
+  if (typeof encodedRoutes === 'string') {
+    const routes = JSON.parse(encodedRoutes) as Array<{ name: string; status: string; has_access: boolean }>
+    routeList.replaceChildren(...routes.map((route) => {
+      const item = document.createElement('li')
+      item.className = `station-route ${route.has_access ? 'has-access' : 'no-access'}`
+      const name = document.createElement('span')
+      name.textContent = route.name
+      const status = document.createElement('span')
+      status.className = 'access-status'
+      status.textContent = route.has_access ? `Bike access (${route.status})` : `No bike access (${route.status})`
+      item.append(name, status)
+      return item
+    }))
+  }
+  routeCard.hidden = false
+}
+
+function handleEvent(event: TrailheadMapEvent): void {
+  if (event.type === 'layer-progress') {
+    if (event.layer.status === 'ready') statusElement.textContent = '46 routes · 519 stations · updated August 4, 2026'
+    if (event.layer.status === 'error') statusElement.textContent = 'Route data could not be loaded'
+  }
+  if (event.type === 'feature-select' && event.feature.kind === 'transit-route') showRoutes([event.feature])
+  if (event.type === 'feature-select' && event.feature.kind === 'transit-stop') showStop(event.feature)
+  if (event.type === 'features-select') {
+    const stop = event.features.find((feature) => feature.kind === 'transit-stop')
+    if (stop) {
+      showStop(stop)
+      return
+    }
+    const routes = event.features.filter((feature) => feature.kind === 'transit-route')
+    if (routes.length) showRoutes(routes)
+  }
+  if (event.type === 'selection-clear') routeCard.hidden = true
+}
+
+const controller = createTrailheadMap({
+  target: mapElement,
+  config,
+  dataSources: [{
+    id: 'amtrak',
+    kind: 'geojson',
+    role: 'transit',
+    url: '/amtrak-routes.geojson',
+    attribution: 'Amtrak GTFS',
+    sourceUrl: '/amtrak-gtfs.zip',
+    version: '2026-08-04',
+    cachePolicy: 'memory',
+    visible: true,
+  }, {
+    id: 'amtrak-stops',
+    kind: 'geojson',
+    role: 'transit',
+    url: '/amtrak-stops.geojson',
+    attribution: 'Amtrak GTFS and bike reservation data',
+    sourceUrl: '/amtrak-gtfs.zip',
+    version: '2026-08-04',
+    cachePolicy: 'memory',
+    visible: true,
+    pointMarkers: true,
+  }],
+  tileSource: {
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19,
+  },
+  initialView: lonLatView(-98.5, 39.5, 4),
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  onEvent: handleEvent,
+})
+
+closeCard.addEventListener('click', () => controller.clearSelection())
+function setView(view: 'map' | 'list'): void {
+  const showMap = view === 'map'
+  mapShell.hidden = !showMap
+  listView.hidden = showMap
+  mapViewButton.setAttribute('aria-pressed', String(showMap))
+  listViewButton.setAttribute('aria-pressed', String(!showMap))
+  if (showMap) requestAnimationFrame(() => controller.updateSize())
+}
+
+mapViewButton.addEventListener('click', () => setView('map'))
+listViewButton.addEventListener('click', () => setView('list'))
+void populateRouteList().catch(() => {
+  allRoutes.textContent = 'Route list could not be loaded.'
+})
+window.addEventListener('beforeunload', () => controller.destroy(), { once: true })

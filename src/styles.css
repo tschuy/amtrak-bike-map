@@ -1,0 +1,103 @@
+:root {
+  color: #13231e;
+  background: #f2efe7;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { margin: 0; min-width: 320px; min-height: 100%; }
+
+body { min-height: 100vh; }
+
+.app { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+
+.masthead {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.1rem clamp(1rem, 3vw, 3rem);
+  background: #fffdf7;
+  border-bottom: 1px solid #d7d1c4;
+}
+
+.card-label {
+  margin: 0 0 .25rem;
+  color: #b33a2d;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1; }
+.status { margin: 0; color: #5d665f; font-size: .85rem; text-align: right; }
+.header-tools { display: flex; align-items: center; gap: 1rem; }
+.view-switch { display: flex; padding: .2rem; border: 1px solid #cfc8bb; border-radius: .35rem; background: #eee9df; }
+.view-switch button { padding: .38rem .7rem; border: 0; border-radius: .22rem; color: #465049; background: transparent; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.view-switch button[aria-pressed="true"] { color: #fff; background: #24543f; }
+.map-shell { position: relative; min-height: 0; }
+.map { position: absolute; inset: 0; width: 100%; height: 100%; background: #dce8e4; }
+
+.route-card {
+  position: absolute;
+  z-index: 2;
+  left: clamp(1rem, 3vw, 3rem);
+  bottom: 2rem;
+  width: min(22rem, calc(100% - 2rem));
+  padding: 1.15rem 3rem 1.2rem 1.25rem;
+  border: 1px solid #d7d1c4;
+  border-radius: .3rem;
+  background: rgba(255, 253, 247, .96);
+  box-shadow: 0 12px 35px rgba(31, 42, 36, .18);
+}
+
+.route-card h2 { margin: 0 0 .75rem; font-family: Georgia, serif; font-size: 1.5rem; }
+.route-list { display: grid; gap: .65rem; max-height: min(45vh, 22rem); margin: 0; padding: 0; overflow: auto; list-style: none; }
+.route-list a { color: #9e3025; font-weight: 700; }
+.route-result, .station-route { display: grid; gap: .3rem; padding-bottom: .6rem; border-bottom: 1px solid #ded8cc; }
+.route-title { font-weight: 700; }
+.bike-statistics, .access-status { color: #59635d; font-size: .78rem; line-height: 1.35; }
+.station-route { padding-left: .7rem; border-left: 4px solid; }
+.station-route.has-access { border-left-color: #1769d2; }
+.station-route.no-access { border-left-color: #c43131; }
+
+.legend { position: absolute; z-index: 1; left: 1rem; top: 1rem; display: grid; gap: .3rem; padding: .55rem .7rem; border-radius: .25rem; background: rgba(255,253,247,.92); color: #3f4b44; font-size: .7rem; box-shadow: 0 2px 10px rgba(31,42,36,.12); }
+.legend span { display: flex; align-items: center; gap: .4rem; }
+.dot { display: inline-block; width: .7rem; height: .7rem; border: 1px solid white; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,.2); }
+.dot-all { background: #1769d2; }
+.dot-some { background: #8136a6; }
+.dot-none { background: #c43131; }
+.stop-details { margin-top: .25rem; font-size: .78rem; }
+.stop-details summary { color: #38473f; font-weight: 700; cursor: pointer; }
+.stop-info-list { display: grid; gap: .35rem; max-height: 14rem; margin: .55rem 0 0; padding: 0 .25rem 0 0; overflow: auto; list-style: none; }
+.stop-info-list li { display: grid; gap: .08rem; padding: .35rem .45rem; border-left: 3px solid; background: #f7f4ed; }
+.stop-info-list li.has-access { border-left-color: #1769d2; }
+.stop-info-list li.no-access { border-left-color: #c43131; }
+.stop-info-list li span:last-child { color: #647069; font-size: .72rem; }
+.close-card { position: absolute; top: .7rem; right: .7rem; border: 0; background: transparent; font-size: 1.7rem; cursor: pointer; }
+.hint { position: absolute; z-index: 1; right: 1rem; bottom: .75rem; margin: 0; padding: .35rem .6rem; border-radius: .2rem; background: rgba(255,255,255,.85); color: #4b554f; font-size: .75rem; }
+
+.olmap-root .ol-zoom { top: 1rem; left: auto; right: 1rem; }
+.olmap-root .ol-attribution { font-size: .7rem; }
+
+.list-view { padding: clamp(1.25rem, 3vw, 3rem); background: #f2efe7; }
+.list-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; max-width: 76rem; margin: 0 auto 1.25rem; }
+.list-heading h2 { margin: 0; font-family: Georgia, serif; font-size: 2rem; }
+.list-heading p { margin: 0; color: #59635d; }
+.all-routes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); align-items: start; gap: 1rem; max-width: 76rem; margin: 0 auto; }
+.route-card.list-route-card { position: relative; inset: auto; width: auto; padding: 1.2rem; box-shadow: 0 4px 16px rgba(31,42,36,.1); }
+.list-route-card .route-title { color: #9e3025; font-family: Georgia, serif; font-size: 1.35rem; }
+.list-route-card .bike-statistics { display: block; margin-top: .35rem; }
+
+@media (max-width: 600px) {
+  .masthead { align-items: start; gap: .75rem; padding: .85rem 1rem; }
+  .header-tools { align-items: end; flex-direction: column-reverse; gap: .4rem; }
+  .status { max-width: 11rem; font-size: .7rem; }
+  .route-card { left: 1rem; bottom: 2.5rem; }
+  .list-heading { display: block; }
+  .list-heading p { margin-top: .35rem; }
+}

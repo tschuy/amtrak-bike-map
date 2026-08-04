@@ -1,0 +1,5 @@
+node_modules/
+dist/
+public/*.geojson
+public/amtrak-route-summaries.json
+__pycache__

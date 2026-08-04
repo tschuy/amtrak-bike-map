@@ -1,0 +1,19 @@
+{
+  "name": "amtrak-route-map",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "generate:data": "python3 scripts/gtfs_to_geojson.py data/amtrak-gtfs.zip public/amtrak-routes.geojson public/amtrak-stops.geojson public/amtrak-route-summaries.json 51 data/bike-reservations.csv",
+    "dev": "npm run generate:data && vite",
+    "build": "npm run generate:data && tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "olmap": "file:../hiking-by-transit/packages/olmap"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^5.3.3"
+  }
+}

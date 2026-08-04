@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A map of Amtrak-operated passenger rail routes." />
+    <title>Amtrak Bicycle Access</title>
+  </head>
+  <body>
+    <main class="app olmap-root">
+      <header class="masthead">
+        <div>
+          <h1>Amtrak Bicycle Access</h1>
+        </div>
+        <div class="header-tools">
+          <div class="view-switch" aria-label="Choose map or list view">
+            <button id="map-view-button" type="button" aria-pressed="true">Map</button>
+            <button id="list-view-button" type="button" aria-pressed="false">List</button>
+          </div>
+          <p id="status" class="status" role="status" aria-live="polite">Loading route data…</p>
+        </div>
+      </header>
+      <section class="map-shell" aria-label="Interactive map of Amtrak routes">
+        <div id="map" class="map olmap-map"></div>
+        <aside id="route-card" class="route-card" aria-live="polite" hidden>
+          <button id="close-card" class="close-card" type="button" aria-label="Close route details">×</button>
+          <p id="card-label" class="card-label">Amtrak route</p>
+          <h2 id="route-name"></h2>
+          <ul id="route-list" class="route-list"></ul>
+        </aside>
+        <div class="legend" aria-label="Station bike access legend">
+          <span><i class="dot dot-all"></i>All routes</span>
+          <span><i class="dot dot-some"></i>Some routes</span>
+          <span><i class="dot dot-none"></i>No routes</span>
+        </div>
+        <p class="hint">Select a route or station for details</p>
+      </section>
+      <section id="list-view" class="list-view" aria-label="All Amtrak routes" hidden>
+        <div class="list-heading">
+          <h2>All routes</h2>
+          <p>Bike access by station for every Amtrak route in the feed.</p>
+        </div>
+        <div id="all-routes" class="all-routes"></div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
