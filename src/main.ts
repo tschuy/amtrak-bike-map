@@ -160,7 +160,7 @@ function showStop(feature: MapFeatureDetails): void {
 
 function handleEvent(event: TrailheadMapEvent): void {
   if (event.type === 'layer-progress') {
-    if (event.layer.status === 'ready') statusElement.textContent = '46 routes · 519 stations · updated August 4, 2026'
+    if (event.layer.status === 'ready') statusElement.textContent = '47 routes · 532 stations · updated August 4, 2026'
     if (event.layer.status === 'error') statusElement.textContent = 'Route data could not be loaded'
   }
   if (event.type === 'feature-select' && event.feature.kind === 'transit-route') showRoutes([event.feature])
@@ -185,7 +185,7 @@ const controller = createTrailheadMap({
     kind: 'geojson',
     role: 'transit',
     url: '/amtrak-routes.geojson',
-    attribution: 'Amtrak GTFS',
+    attribution: 'Amtrak and Gold Runner GTFS',
     sourceUrl: '/amtrak-gtfs.zip',
     version: '2026-08-04',
     cachePolicy: 'memory',
@@ -195,7 +195,7 @@ const controller = createTrailheadMap({
     kind: 'geojson',
     role: 'transit',
     url: '/amtrak-stops.geojson',
-    attribution: 'Amtrak GTFS and bike reservation data',
+    attribution: 'Amtrak and Gold Runner GTFS with bike reservation data',
     sourceUrl: '/amtrak-gtfs.zip',
     version: '2026-08-04',
     cachePolicy: 'memory',
