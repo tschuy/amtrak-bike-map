@@ -39,6 +39,9 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6re
 .view-switch { display: flex; padding: .2rem; border: 1px solid #cfc8bb; border-radius: .35rem; background: #eee9df; }
 .view-switch button { padding: .38rem .7rem; border: 0; border-radius: .22rem; color: #465049; background: transparent; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
 .view-switch button[aria-pressed="true"] { color: #fff; background: #24543f; }
+.faq-button { padding: .5rem .75rem; border: 1px solid #9f988a; border-radius: .35rem; color: #35463d; background: #fffdf7; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.faq-button:hover, .faq-button[aria-pressed="true"] { border-color: #24543f; color: #fff; background: #24543f; }
+.faq-button:focus-visible, .view-switch button:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 2px; }
 .map-shell { position: relative; min-height: 0; }
 .olmap-root .map { position: absolute; inset: 0; width: 100%; height: 100%; background: #dce8e4; }
 
@@ -99,6 +102,13 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6re
 .list-heading h2 { margin: 0; font-family: Georgia, serif; font-size: 2rem; }
 .list-heading p { margin: 0; color: #59635d; }
 .all-routes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); align-items: start; gap: 1rem; max-width: 76rem; margin: 0 auto; }
+.faq-view { padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 3vw, 3rem); background: #f2efe7; }
+.faq-content { max-width: 48rem; margin: 0 auto; }
+.faq-content > h2 { margin: 0 0 2rem; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); }
+.faq-list { display: grid; gap: 1rem; }
+.faq-list article { padding: 1.25rem 1.4rem; border: 1px solid #d7d1c4; border-radius: .3rem; background: #fffdf7; box-shadow: 0 4px 16px rgba(31,42,36,.07); }
+.faq-list h3 { margin: 0 0 .5rem; font-family: Georgia, serif; font-size: 1.25rem; }
+.faq-list p { margin: 0; color: #59635d; line-height: 1.65; }
 .route-card.list-route-card { position: relative; inset: auto; width: auto; padding: 1.2rem; box-shadow: 0 4px 16px rgba(31,42,36,.1); }
 .list-route-card .route-title { color: #9e3025; font-family: Georgia, serif; font-size: 1.35rem; }
 .list-route-card .bike-statistics { display: block; margin-top: .35rem; }
@@ -113,6 +123,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6re
   .status { max-width: 12rem; font-size: .68rem; text-align: left; }
   .view-switch { flex: 0 0 auto; }
   .view-switch button { min-height: 36px; padding-inline: .8rem; }
+  .faq-button { min-height: 36px; }
   .route-card { right: .75rem; bottom: 4rem; left: .75rem; width: auto; max-height: calc(100% - 5rem); padding: 1rem 2.75rem 1rem 1rem; overflow: auto; }
   .route-list { max-height: none; overflow: visible; }
   .legend { top: .75rem; left: .75rem; }
@@ -124,6 +135,7 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6re
   .olmap-root .ol-attribution { right: .25rem; bottom: .15rem; max-width: calc(100% - .5rem); padding: 1px; font-size: .55rem; line-height: 1.05; }
   .olmap-root .ol-attribution ul { max-width: none; margin: 0; overflow: visible; white-space: normal; }
   .list-view { padding: 1rem .75rem 1.5rem; }
+  .faq-view { padding: 2rem .75rem; }
   .list-heading { display: block; }
   .list-heading h2 { font-size: 1.6rem; }
   .list-heading p { margin-top: .35rem; font-size: .85rem; line-height: 1.4; }

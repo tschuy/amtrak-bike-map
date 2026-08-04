@@ -13,9 +13,11 @@ const routeList = document.querySelector<HTMLUListElement>('#route-list')!
 const closeCard = document.querySelector<HTMLButtonElement>('#close-card')!
 const mapShell = document.querySelector<HTMLElement>('.map-shell')!
 const listView = document.querySelector<HTMLElement>('#list-view')!
+const faqView = document.querySelector<HTMLElement>('#faq-view')!
 const allRoutes = document.querySelector<HTMLElement>('#all-routes')!
 const mapViewButton = document.querySelector<HTMLButtonElement>('#map-view-button')!
 const listViewButton = document.querySelector<HTMLButtonElement>('#list-view-button')!
+const faqViewButton = document.querySelector<HTMLButtonElement>('#faq-view-button')!
 
 type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
@@ -213,17 +215,34 @@ const controller = createTrailheadMap({
 })
 
 closeCard.addEventListener('click', () => controller.clearSelection())
-function setView(view: 'map' | 'list'): void {
+type View = 'map' | 'list' | 'faq'
+
+function setView(view: View, updateHistory = true): void {
   const showMap = view === 'map'
+  const showList = view === 'list'
+  const showFaq = view === 'faq'
   mapShell.hidden = !showMap
-  listView.hidden = showMap
+  listView.hidden = !showList
+  faqView.hidden = !showFaq
   mapViewButton.setAttribute('aria-pressed', String(showMap))
-  listViewButton.setAttribute('aria-pressed', String(!showMap))
+  listViewButton.setAttribute('aria-pressed', String(showList))
+  faqViewButton.setAttribute('aria-pressed', String(showFaq))
+  document.title = showFaq ? 'FAQ · Amtrak Bicycle Access' : 'Amtrak Bicycle Access'
+  if (updateHistory) history.pushState({ view }, '', showFaq ? '#faq' : showList ? '#list' : window.location.pathname)
   if (showMap) requestAnimationFrame(() => controller.updateSize())
 }
 
 mapViewButton.addEventListener('click', () => setView('map'))
 listViewButton.addEventListener('click', () => setView('list'))
+faqViewButton.addEventListener('click', () => setView('faq'))
+function viewFromLocation(): View {
+  if (window.location.hash === '#faq') return 'faq'
+  if (window.location.hash === '#list') return 'list'
+  return 'map'
+}
+
+window.addEventListener('popstate', () => setView(viewFromLocation(), false))
+setView(viewFromLocation(), false)
 void populateRouteList().catch(() => {
   allRoutes.textContent = 'Route list could not be loaded.'
 })
