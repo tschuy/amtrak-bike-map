@@ -7,13 +7,16 @@
     "generate:data": "python3 scripts/gtfs_to_geojson.py data/amtrak-gtfs.zip data/gold-runner-gtfs.zip public/amtrak-routes.geojson public/amtrak-stops.geojson public/amtrak-route-summaries.json 51 data/bike-reservations.csv data/routes.csv",
     "dev": "npm run generate:data && vite",
     "build": "npm run generate:data && tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "revendor": "bash scripts/revendor-olmap.sh",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
-    "olmap": "file:../hiking-by-transit/packages/olmap"
+    "olmap": "file:vendor/olmap-1.0.0.tgz"
   },
   "devDependencies": {
     "typescript": "^5.9.3",
-    "vite": "^5.3.3"
+    "vite": "^5.3.3",
+    "wrangler": "^4.28.1"
   }
 }

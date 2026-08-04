@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "amtrak-bike-map",
+  "compatibility_date": "2026-08-04",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    {
+      "pattern": "amtrak-bike-map.transittools.dev",
+      "custom_domain": true
+    }
+  ]
+}
