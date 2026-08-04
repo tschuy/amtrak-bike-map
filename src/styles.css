@@ -61,6 +61,12 @@ h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6re
 .route-result, .station-route { display: grid; gap: .3rem; padding-bottom: .6rem; border-bottom: 1px solid #ded8cc; }
 .route-title { font-weight: 700; }
 .bike-statistics, .access-status { color: #59635d; font-size: .78rem; line-height: 1.35; }
+.service-options { display: grid; grid-template-columns: 1fr auto; gap: .25rem .75rem; margin: .35rem 0; font-size: .78rem; }
+.service-options dt, .service-options dd { margin: 0; }
+.service-options dd { font-weight: 700; }
+.service-options .available { color: #1769d2; }
+.service-options .unavailable { color: #a62e2e; }
+.service-note { margin: .25rem 0; color: #59635d; font-size: .78rem; line-height: 1.4; }
 .station-route { padding-left: .7rem; border-left: 4px solid; }
 .station-route.has-access { border-left-color: #1769d2; }
 .station-route.no-access { border-left-color: #c43131; }

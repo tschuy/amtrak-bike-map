@@ -34,6 +34,11 @@ def load_bike_data(path: str):
     return by_route
 
 
+def load_route_services(path: str):
+    with open(path, newline="", encoding="utf-8") as source:
+        return {row["route_name"].strip(): row for row in csv.DictReader(source)}
+
+
 def route_bike_rows(route_name, bike_data):
     aliases = ROUTE_ALIASES.get(route_name, [route_name])
     combined = {}
@@ -45,8 +50,9 @@ def route_bike_rows(route_name, bike_data):
 
 
 def main() -> None:
-    source_path, routes_output, stops_output, summaries_output, agency_id, bike_path = sys.argv[1:7]
+    source_path, routes_output, stops_output, summaries_output, agency_id, bike_path, services_path = sys.argv[1:8]
     bike_data = load_bike_data(bike_path)
+    route_services = load_route_services(services_path)
     with zipfile.ZipFile(source_path) as archive:
         routes = {row["route_id"]: row for row in rows(archive, "routes.txt") if row["agency_id"] == agency_id}
         shape_routes = {}
@@ -81,6 +87,7 @@ def main() -> None:
             {"code": code, "name": station_names.get(code, code), "status": status, "has_access": status in BIKE_ACCESS}
             for code, status in sorted(statuses.items(), key=lambda item: (station_names.get(item[0], item[0]), item[0]))
         ]
+        services = route_services.get(route["route_long_name"], {})
         route_properties[route_id] = {
             "route_id": route_id,
             "route_long_name": route["route_long_name"],
@@ -93,6 +100,9 @@ def main() -> None:
             "bike_access_percent": round(access_count / total * 100, 1) if total else 0,
             "bike_no_access_percent": round((total - access_count) / total * 100, 1) if total else 0,
             "bike_stations": json.dumps(bike_stations, separators=(",", ":")),
+            "carry_on": services.get("carry_on", "no"),
+            "checked": services.get("checked", "no"),
+            "service_note": services.get("note", ""),
         }
     for shape_id, route_id in sorted(shape_routes.items()):
         coordinates = [coordinate for _, coordinate in sorted(points[shape_id])]

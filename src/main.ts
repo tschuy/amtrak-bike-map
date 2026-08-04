@@ -59,6 +59,28 @@ function routeContent(route: RouteInfo): DocumentFragment {
     : 'Bike access data unavailable'
   content.append(statistics)
 
+  const serviceOptions = document.createElement('dl')
+  serviceOptions.className = 'service-options'
+  const addService = (label: string, available: boolean): void => {
+    const term = document.createElement('dt')
+    term.textContent = label
+    const value = document.createElement('dd')
+    value.className = available ? 'available' : 'unavailable'
+    value.textContent = available ? 'Available' : 'Not available'
+    serviceOptions.append(term, value)
+  }
+  addService('Carry-on bicycle service', route.properties.carry_on === 'yes')
+  addService('Checked bicycle service', route.properties.checked === 'yes')
+  content.append(serviceOptions)
+
+  const note = route.properties.service_note
+  if (typeof note === 'string' && note.trim()) {
+    const noteElement = document.createElement('p')
+    noteElement.className = 'service-note'
+    noteElement.textContent = note
+    content.append(noteElement)
+  }
+
   const encodedStations = route.properties.bike_stations
   if (typeof encodedStations === 'string') {
     const stations = JSON.parse(encodedStations) as BikeStation[]
