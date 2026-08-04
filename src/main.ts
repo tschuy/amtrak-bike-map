@@ -22,6 +22,13 @@ const faqViewButton = document.querySelector<HTMLButtonElement>('#faq-view-butto
 type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
 
+function bikeAccessLabel(status: string, hasAccess: boolean): string {
+  if (status === 'yes') return 'Bike access'
+  if (status === 'no') return 'No bike access'
+  if (status === 'unavailable') return 'Bike access listed but booking not available'
+  return hasAccess ? `Bike access (${status})` : `No bike access (${status})`
+}
+
 const config = validateConfig({
   schema_version: 'legacy-1',
   data_version: '2026-08-04',
@@ -98,7 +105,7 @@ function routeContent(route: RouteInfo): DocumentFragment {
       const name = document.createElement('span')
       name.textContent = `${station.name} (${station.code})`
       const status = document.createElement('span')
-      status.textContent = station.has_access ? `Bike access (${station.status})` : `No bike access (${station.status})`
+      status.textContent = bikeAccessLabel(station.status, station.has_access)
       item.append(name, status)
       return item
     }))
@@ -152,7 +159,7 @@ function showStop(feature: MapFeatureDetails): void {
       name.textContent = route.name
       const status = document.createElement('span')
       status.className = 'access-status'
-      status.textContent = route.has_access ? `Bike access (${route.status})` : `No bike access (${route.status})`
+      status.textContent = bikeAccessLabel(route.status, route.has_access)
       item.append(name, status)
       return item
     }))
