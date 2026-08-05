@@ -101,7 +101,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .legend span { display: flex; align-items: center; gap: .4rem; }
 .dot { display: inline-block; width: .7rem; height: .7rem; border: 1px solid white; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,.2); }
 .dot-all { background: #1769d2; }
-.dot-some { background: #8136a6; }
+.dot-some { background: #6b1f78; }
 .dot-none { background: #c43131; }
 .stop-details { margin-top: .25rem; font-size: .78rem; }
 .stop-details summary { color: #38473f; font-weight: 700; cursor: pointer; }

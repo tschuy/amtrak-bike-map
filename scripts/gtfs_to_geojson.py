@@ -170,7 +170,7 @@ def main() -> None:
             served_routes.append({"route_id": route_id, "name": name, "status": status, "has_access": status in BIKE_ACCESS})
         access_count = sum(route["has_access"] for route in served_routes)
         level = "all" if served_routes and access_count == len(served_routes) else "some" if access_count else "none"
-        color = {"all": "#1769d2", "some": "#8136a6", "none": "#c43131"}[level]
+        color = {"all": "#1769d2", "some": "#6b1f78", "none": "#c43131"}[level]
         stop_features.append({
             "type": "Feature",
             "id": f"stop:{stop['stop_id']}",
