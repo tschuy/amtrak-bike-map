@@ -223,6 +223,8 @@ const controller = createTrailheadMap({
   onEvent: handleEvent,
 })
 
+mapElement.querySelector('.olmap-location-control')?.remove()
+
 closeCard.addEventListener('click', () => controller.clearSelection())
 type View = 'map' | 'list' | 'faq'
 

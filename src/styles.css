@@ -94,8 +94,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .stop-info-list li span:last-child { color: #647069; font-size: .72rem; }
 .close-card { position: absolute; top: .7rem; right: .7rem; border: 0; background: transparent; font-size: 1.7rem; cursor: pointer; }
 .hint { position: absolute; z-index: 1; right: 1rem; bottom: .75rem; margin: 0; padding: .35rem .6rem; border-radius: .2rem; background: rgba(255,255,255,.85); color: #4b554f; font-size: .75rem; }
-.olmap-root .olmap-location-control { top: 1rem; right: 1rem; left: auto; }
-.olmap-root .ol-zoom { top: 4.75rem; right: 1rem; left: auto; }
+.olmap-root .ol-zoom { top: 1rem; right: 1rem; left: auto; }
 .olmap-root .ol-attribution { font-size: .7rem; }
 
 .list-view { padding: clamp(1.25rem, 3vw, 3rem); background: #f2efe7; }
@@ -131,8 +130,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .route-card { right: .75rem; bottom: 4rem; left: .75rem; width: auto; max-height: calc(100% - 5rem); padding: 1rem 2.75rem 1rem 1rem; overflow: auto; }
   .route-list { max-height: none; overflow: visible; }
   .legend { top: .75rem; left: .75rem; }
-  .olmap-root .olmap-location-control { top: .75rem; right: .75rem; }
-  .olmap-root .ol-zoom { top: 3.75rem; right: .75rem; }
+  .olmap-root .ol-zoom { top: .75rem; right: .75rem; }
   .hint { display: none; }
   .olmap-root .ol-attribution { right: .25rem; bottom: .15rem; max-width: calc(100% - .5rem); padding: 1px; font-size: .55rem; line-height: 1.05; }
   .olmap-root .ol-attribution ul { max-width: none; margin: 0; overflow: visible; white-space: normal; }
