@@ -276,6 +276,7 @@ function showRoutes(features: MapFeatureDetails[]): void {
   stopRenderVersion += 1
   const routes = [...new Map(features.map((feature) => [String(feature.properties.route_id), feature])).values()]
     .sort((left, right) => left.name.localeCompare(right.name))
+  controller.setTransitRouteEmphasis(routes.map((route) => String(route.properties.route_id)))
   routeCard.classList.add('route-card-mode')
   routeCard.classList.remove('station-card-mode')
   cardLabel.textContent = routes.length === 1 ? 'Amtrak route' : `${routes.length} Amtrak routes`
@@ -333,6 +334,7 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
     const routes = (JSON.parse(encodedRoutes) as StationRoute[]).sort((left, right) =>
       Number(right.has_access) - Number(left.has_access) || left.name.localeCompare(right.name),
     )
+    controller.setTransitRouteEmphasis(routes.map((route) => String(route.route_id)))
     const routeInfo = await loadRouteInfo().catch(() => [])
     if (renderVersion !== stopRenderVersion) return
     const routeInfoById = new Map(routeInfo.map((route) => [String(route.properties.route_id), route]))
@@ -364,6 +366,7 @@ function handleEvent(event: TrailheadMapEvent): void {
   }
   if (event.type === 'selection-clear') {
     stopRenderVersion += 1
+    controller.setTransitRouteEmphasis()
     routeCard.hidden = true
   }
 }
