@@ -18,7 +18,7 @@ body.map-view-active .app { height: 100vh; }
 
 .masthead {
   display: flex;
-  align-items: end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
   padding: 1.1rem clamp(1rem, 3vw, 3rem);
@@ -39,8 +39,9 @@ h1 { margin: 0; font-family: "Bungee", Georgia, serif; font-size: clamp(1.7rem, 
 h1 a { color: inherit; text-decoration: none; }
 h1 a:hover { text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .12em; }
 h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4px; border-radius: .1rem; }
+.site-subheading { margin: .35rem 0 0; color: #5d665f; font-size: .78rem; line-height: 1.25; }
 .status { margin: 0; color: #5d665f; font-size: .85rem; text-align: right; }
-.header-tools { display: flex; align-items: center; gap: 1rem; }
+.header-tools { display: flex; align-items: center; gap: 1rem; margin-top: .1rem; }
 .view-switch { display: flex; padding: .2rem; border: 1px solid #cfc8bb; border-radius: .35rem; background: #eee9df; }
 .view-switch button { padding: .38rem .7rem; border: 0; border-radius: .22rem; color: #465049; background: transparent; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
 .view-switch button[aria-pressed="true"] { color: #fff; background: #24543f; }
@@ -179,7 +180,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .masthead { align-items: stretch; flex-direction: column; gap: .65rem; padding: .8rem .75rem; }
   .masthead > div:first-child, h1, h1 a { display: block; width: 100%; }
   h1 { padding-inline: .15rem; font-size: clamp(1.15rem, 6vw, 1.65rem); white-space: nowrap; }
-  .header-tools { width: 100%; justify-content: space-between; gap: .65rem; }
+  .header-tools { width: 100%; justify-content: space-between; gap: .65rem; margin-top: 0; }
   .status { max-width: 12rem; font-size: .68rem; text-align: left; }
   .view-switch { flex: 0 0 auto; }
   .view-switch button { min-height: 36px; padding-inline: .8rem; }

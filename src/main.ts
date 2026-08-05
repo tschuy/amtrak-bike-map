@@ -420,7 +420,7 @@ function setView(view: View, updateHistory = true): void {
   listViewButton.setAttribute('aria-pressed', String(showList))
   faqViewButton.setAttribute('aria-pressed', String(showFaq))
   document.body.classList.toggle('map-view-active', showMap)
-  document.title = showFaq ? 'FAQ · Amtrak Bicycle Access' : 'Amtrak Bicycle Access'
+  document.title = showFaq ? 'FAQ · Bikes on Amtrak' : 'Bikes on Amtrak'
   if (updateHistory) history.pushState({ view }, '', showFaq ? '#faq' : showList ? '#list' : window.location.pathname)
   if (showMap) requestAnimationFrame(() => controller.updateSize())
 }
