@@ -169,7 +169,8 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .faq-list p { margin: 0; color: #59635d; line-height: 1.65; }
 .route-card.list-route-card { position: relative; inset: auto; width: auto; padding: 1.2rem; box-shadow: 0 4px 16px rgba(31,42,36,.1); }
 .list-route-card .route-title { color: #9e3025; font-family: Georgia, serif; font-size: 1.35rem; }
-.site-footer { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem clamp(1rem, 3vw, 3rem); border-top: 1px solid #d7d1c4; background: #fffdf7; color: #59635d; font-size: .75rem; }
+.site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1rem; padding: .65rem clamp(1rem, 3vw, 3rem); border-top: 1px solid #d7d1c4; background: #fffdf7; color: #59635d; font-size: .75rem; }
+.footer-disclaimer { text-align: center; }
 .site-footer a { color: #9e3025; font-weight: 700; }
 
 @media (max-width: 600px) {
