@@ -169,8 +169,9 @@ def main() -> None:
             status = statuses.get(code, "unavailable")
             served_routes.append({"route_id": route_id, "name": name, "status": status, "has_access": status in BIKE_ACCESS})
         access_count = sum(route["has_access"] for route in served_routes)
-        level = "all" if served_routes and access_count == len(served_routes) else "some" if access_count else "none"
-        color = {"all": "#1769d2", "some": "#6b1f78", "none": "#c43131"}[level]
+        has_boxed = any(route["status"] == "boxed" for route in served_routes)
+        level = "all" if served_routes and access_count == len(served_routes) else "some" if access_count else "boxed" if has_boxed else "none"
+        color = {"all": "#1769d2", "some": "#6b1f78", "boxed": "#9b315f", "none": "#c43131"}[level]
         stop_features.append({
             "type": "Feature",
             "id": f"stop:{stop['stop_id']}",

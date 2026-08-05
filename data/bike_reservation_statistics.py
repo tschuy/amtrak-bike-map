@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ACCEPTS_BIKES = {"yes", "unreserved"}
-EXPECTED_STATUSES = ACCEPTS_BIKES | {"no"}
+EXPECTED_STATUSES = ACCEPTS_BIKES | {"no", "boxed"}
 
 
 def load_data(

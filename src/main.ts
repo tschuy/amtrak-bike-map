@@ -23,8 +23,10 @@ const homeLink = document.querySelector<HTMLAnchorElement>('#home-link')!
 type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
 type StationRoute = { route_id: string; name: string; status: string; has_access: boolean }
+type StopCollection = { features: Array<{ properties?: { bike_access_level?: unknown } }> }
 
 let routeInfoPromise: Promise<RouteInfo[]> | undefined
+let networkSummaryPromise: Promise<string> | undefined
 let stopRenderVersion = 0
 
 function loadRouteInfo(): Promise<RouteInfo[]> {
@@ -39,11 +41,45 @@ function loadRouteInfo(): Promise<RouteInfo[]> {
   return routeInfoPromise
 }
 
+function loadNetworkSummary(): Promise<string> {
+  networkSummaryPromise ??= Promise.all([
+    loadRouteInfo(),
+    fetch('/amtrak-stops.geojson').then(async (response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      return response.json() as Promise<StopCollection>
+    }),
+  ]).then(([routes, stops]) => {
+    const accessibleRoutes = routes.filter((route) =>
+      route.properties.carry_on === 'yes' || route.properties.checked === 'yes',
+    ).length
+    const accessibleStations = stops.features.filter(({ properties }) =>
+      properties?.bike_access_level === 'all' || properties?.bike_access_level === 'some',
+    ).length
+    return `bikes allowed on ${accessibleRoutes}/${routes.length} routes at ${accessibleStations}/${stops.features.length} stations`
+  })
+  return networkSummaryPromise
+}
+
 function bikeAccessLabel(status: string, hasAccess: boolean): string {
   if (status === 'yes') return 'Bike access'
   if (status === 'no') return 'No bike access'
+  if (status === 'boxed') return 'Boxed bikes only'
   if (status === 'unavailable') return 'Bike access listed but booking not available'
   return hasAccess ? `Bike access (${status})` : `No bike access (${status})`
+}
+
+function routeBikeAccessLabel(route: RouteInfo): string {
+  const carryOn = route.properties.carry_on === 'yes'
+  const checked = route.properties.checked === 'yes'
+  if (carryOn && checked) return 'Carry-on / Checked'
+  if (carryOn) return 'Carry-on'
+  if (checked) return 'Checked'
+  return 'Bike access'
+}
+
+function bicycleServiceLabel(route: RouteInfo): string {
+  const access = routeBikeAccessLabel(route)
+  return access === 'Bike access' ? 'No bicycle service' : `${access} bicycle service`
 }
 
 const config = validateConfig({
@@ -61,7 +97,7 @@ const config = validateConfig({
   kml_groups: { hardcoded: {}, generated: {} },
 })
 
-function routeContent(route: RouteInfo, includeTitle = true): DocumentFragment {
+function routeContent(route: RouteInfo, includeTitle = true, stationSubview = false): DocumentFragment {
   const content = document.createDocumentFragment()
   const url = route.properties.route_url
   if (includeTitle) {
@@ -79,83 +115,126 @@ function routeContent(route: RouteInfo, includeTitle = true): DocumentFragment {
   const access = Number(route.properties.bike_access_count)
   const noAccess = Number(route.properties.bike_no_access_count)
   const accessPercent = Number(route.properties.bike_access_percent)
-  const noAccessPercent = Number(route.properties.bike_no_access_percent)
-  const statistics = document.createElement('span')
-  statistics.className = 'bike-statistics'
-  statistics.textContent = Number.isFinite(access) && Number.isFinite(noAccess)
-    ? `${access} (${accessPercent.toFixed(1)}%) with bike access · ${noAccess} (${noAccessPercent.toFixed(1)}%) without`
-    : 'Bike access data unavailable'
-  content.append(statistics)
+  const totalStations = access + noAccess
+  const hasAccessStatistics = Number.isFinite(access) && Number.isFinite(noAccess) && Number.isFinite(accessPercent)
+
+  const serviceSummary = document.createElement('p')
+  serviceSummary.className = 'service-summary'
+  serviceSummary.textContent = bicycleServiceLabel(route)
+  if (!stationSubview) content.append(serviceSummary)
+
+  const accessSection = document.createElement('section')
+  accessSection.className = 'route-info-section access-section'
+  const accessHeading = document.createElement('h3')
+  accessHeading.textContent = 'Bike access'
+  const accessMetric = document.createElement('p')
+  accessMetric.className = 'access-metric'
+  if (hasAccessStatistics) {
+    const accessCount = document.createElement('strong')
+    accessCount.textContent = `${access} of ${totalStations} stations`
+    const percentage = document.createElement('span')
+    percentage.textContent = `${accessPercent.toFixed(1)}%`
+    accessMetric.append(accessCount, percentage)
+    const progress = document.createElement('progress')
+    progress.className = 'access-progress'
+    progress.max = Math.max(totalStations, 1)
+    progress.value = access
+    progress.setAttribute('aria-label', `${access} of ${totalStations} stations have bike access`)
+    accessSection.append(accessHeading, accessMetric, progress)
+  } else {
+    accessMetric.textContent = 'Data unavailable'
+    accessSection.append(accessHeading, accessMetric)
+  }
+  if (!stationSubview) content.append(accessSection)
+
+  const requirements = document.createElement('section')
+  requirements.className = 'route-info-section requirements-section'
+  const requirementsHeading = document.createElement('h3')
+  requirementsHeading.textContent = 'Travel requirements'
+  requirements.append(requirementsHeading)
+
+  const carryOnAvailable = route.properties.carry_on === 'yes'
+  const checkedAvailable = route.properties.checked === 'yes'
+  if (carryOnAvailable || checkedAvailable) {
+    const reservationRequired = route.properties.reservation_required !== 'no'
+    const reservation = document.createElement('p')
+    reservation.className = `reservation-notice ${reservationRequired ? 'required' : 'not-required'}`
+    reservation.textContent = reservationRequired ? '⚠ Reservation required' : '✓ No reservation required'
+    requirements.append(reservation)
+
+    const tireWidth = typeof route.properties.tire_width === 'string' && route.properties.tire_width.trim()
+      ? route.properties.tire_width.trim()
+      : '2'
+    const requirementsList = document.createElement('dl')
+    requirementsList.className = 'requirements-list'
+    const tireTerm = document.createElement('dt')
+    tireTerm.textContent = 'Maximum tire width'
+    const tireValue = document.createElement('dd')
+    tireValue.textContent = `${tireWidth}\"`
+    requirementsList.append(tireTerm, tireValue)
+    requirements.append(requirementsList)
+  }
 
   if (route.properties.remove_wheel === 'yes') {
     const wheelWarning = document.createElement('p')
     wheelWarning.className = 'wheel-warning'
     wheelWarning.textContent = '⚠ Must remove front wheel while storing bike'
-    content.append(wheelWarning)
+    requirements.append(wheelWarning)
   }
-
-  const serviceOptions = document.createElement('dl')
-  serviceOptions.className = 'service-options'
-  const addService = (label: string, available: boolean): void => {
-    const term = document.createElement('dt')
-    term.textContent = label
-    const value = document.createElement('dd')
-    value.className = available ? 'available' : 'unavailable'
-    value.textContent = available ? 'Available' : 'Not available'
-    serviceOptions.append(term, value)
-  }
-  const carryOnAvailable = route.properties.carry_on === 'yes'
-  const checkedAvailable = route.properties.checked === 'yes'
-  addService('Carry-on bicycle service', carryOnAvailable)
-  addService('Checked bicycle service', checkedAvailable)
-
-  if (carryOnAvailable || checkedAvailable) {
-    const reservationRequired = route.properties.reservation_required !== 'no'
-    const reservationTerm = document.createElement('dt')
-    reservationTerm.textContent = 'Reservation'
-    const reservationValue = document.createElement('dd')
-    reservationValue.className = reservationRequired ? 'warning' : 'success'
-    reservationValue.textContent = reservationRequired ? '⚠ Reservation required' : '✓ No reservation required'
-
-    const tireWidth = typeof route.properties.tire_width === 'string' && route.properties.tire_width.trim()
-      ? route.properties.tire_width.trim()
-      : '2'
-    const tireTerm = document.createElement('dt')
-    tireTerm.textContent = 'Tire width'
-    const tireValue = document.createElement('dd')
-    tireValue.textContent = `Up to ${tireWidth}\"`
-    serviceOptions.append(reservationTerm, reservationValue, tireTerm, tireValue)
-  }
-  content.append(serviceOptions)
 
   const note = route.properties.service_note
   if (typeof note === 'string' && note.trim()) {
     const noteElement = document.createElement('p')
     noteElement.className = 'service-note'
     noteElement.textContent = note
-    content.append(noteElement)
+    requirements.append(noteElement)
   }
+  content.append(requirements)
 
   const encodedStations = route.properties.bike_stations
   if (typeof encodedStations === 'string') {
     const stations = JSON.parse(encodedStations) as BikeStation[]
     const details = document.createElement('details')
-    details.className = 'stop-details'
+    details.className = `stop-details${stationSubview ? ' station-subview-stops' : ''}`
     const summary = document.createElement('summary')
-    summary.textContent = `Stop information (${stations.length})`
+    const summaryLabel = document.createElement('span')
+    summaryLabel.textContent = 'View stops'
+    const count = document.createElement('span')
+    count.className = 'stop-count'
+    count.textContent = stationSubview && hasAccessStatistics
+      ? `${access} of ${totalStations} stations`
+      : String(stations.length)
+    summary.append(summaryLabel, count)
     const list = document.createElement('ul')
     list.className = 'stop-info-list'
     list.append(...stations.map((station) => {
       const item = document.createElement('li')
-      item.className = station.has_access ? 'has-access' : 'no-access'
+      item.className = station.status === 'boxed' ? 'boxed-access' : station.has_access ? 'has-access' : 'no-access'
       const name = document.createElement('span')
       name.textContent = `${station.name} (${station.code})`
       const status = document.createElement('span')
-      status.textContent = bikeAccessLabel(station.status, station.has_access)
+      status.textContent = station.has_access
+        ? `${routeBikeAccessLabel(route)}${station.status === 'unreserved' ? ' · unreserved' : ''}`
+        : bikeAccessLabel(station.status, station.has_access)
       item.append(name, status)
+      if (station.status === 'boxed') {
+        const note = document.createElement('p')
+        note.className = 'boxed-note'
+        note.textContent = 'Boxed bikes accepted as checked baggage. Boxes sold at station, tools not available.'
+        item.append(note)
+      }
       return item
     }))
-    details.append(summary, list)
+    details.append(summary)
+    if (stationSubview && hasAccessStatistics) {
+      const progress = document.createElement('progress')
+      progress.className = 'access-progress stop-access-progress'
+      progress.max = Math.max(totalStations, 1)
+      progress.value = access
+      progress.setAttribute('aria-label', `${access} of ${totalStations} stations have bike access`)
+      details.append(progress)
+    }
+    details.append(list)
     content.append(details)
   }
   return content
@@ -165,6 +244,8 @@ function showRoutes(features: MapFeatureDetails[]): void {
   stopRenderVersion += 1
   const routes = [...new Map(features.map((feature) => [String(feature.properties.route_id), feature])).values()]
     .sort((left, right) => left.name.localeCompare(right.name))
+  routeCard.classList.add('route-card-mode')
+  routeCard.classList.remove('station-card-mode')
   cardLabel.textContent = routes.length === 1 ? 'Amtrak route' : `${routes.length} Amtrak routes`
   routeName.textContent = routes.length === 1 ? '' : 'Routes at this location'
   if (routes.length === 1) {
@@ -200,6 +281,8 @@ async function populateRouteList(): Promise<void> {
 
 async function showStop(feature: MapFeatureDetails): Promise<void> {
   const renderVersion = ++stopRenderVersion
+  routeCard.classList.add('station-card-mode')
+  routeCard.classList.remove('route-card-mode')
   cardLabel.textContent = 'Amtrak station'
   routeName.textContent = feature.name
   routeList.textContent = 'Loading service details…'
@@ -214,13 +297,15 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
     const routeInfoById = new Map(routeInfo.map((route) => [String(route.properties.route_id), route]))
     routeList.replaceChildren(...routes.map((route) => {
       const item = document.createElement('li')
-      item.className = `station-route ${route.has_access ? 'has-access' : 'no-access'}`
+      item.className = `station-route ${route.status === 'boxed' ? 'boxed-access' : route.has_access ? 'has-access' : 'no-access'}`
       const name = document.createElement('span')
       name.textContent = route.name
+      const detailsRoute = routeInfoById.get(String(route.route_id))
       const status = document.createElement('span')
       status.className = 'access-status'
-      status.textContent = bikeAccessLabel(route.status, route.has_access)
-      const detailsRoute = routeInfoById.get(String(route.route_id))
+      status.textContent = route.has_access && detailsRoute
+        ? routeBikeAccessLabel(detailsRoute)
+        : bikeAccessLabel(route.status, route.has_access)
       if (route.has_access && detailsRoute) {
         const details = document.createElement('details')
         details.className = 'station-route-details'
@@ -228,11 +313,17 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
         summary.append(name, status)
         const content = document.createElement('div')
         content.className = 'station-route-content'
-        content.append(routeContent(detailsRoute, false))
+        content.append(routeContent(detailsRoute, false, true))
         details.append(summary, content)
         item.append(details)
       } else {
         item.append(name, status)
+        if (route.status === 'boxed') {
+          const note = document.createElement('p')
+          note.className = 'boxed-note'
+          note.textContent = 'Boxed bikes accepted as checked baggage. Boxes sold at station, tools not available.'
+          item.append(note)
+        }
       }
       return item
     }))
@@ -241,7 +332,11 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
 
 function handleEvent(event: TrailheadMapEvent): void {
   if (event.type === 'layer-progress') {
-    if (event.layer.status === 'ready') statusElement.textContent = '47 routes · 532 stations · updated August 4, 2026'
+    if (event.layer.status === 'ready') void loadNetworkSummary().then((summary) => {
+      statusElement.textContent = summary
+    }).catch(() => {
+      statusElement.textContent = 'Bike access summary could not be loaded'
+    })
     if (event.layer.status === 'error') statusElement.textContent = 'Route data could not be loaded'
   }
   if (event.type === 'feature-select' && event.feature.kind === 'transit-route') showRoutes([event.feature])

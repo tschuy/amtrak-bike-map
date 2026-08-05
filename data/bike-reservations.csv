@@ -312,9 +312,9 @@ Empire Builder,LIB,no
 Empire Builder,MAL,no
 Empire Builder,MKE,yes
 Empire Builder,MOT,yes
-Empire Builder,PSC,no
+Empire Builder,PSC,boxed
 Empire Builder,POG,no
-Empire Builder,PDX,no
+Empire Builder,PDX,boxed
 Empire Builder,RDW,no
 Empire Builder,RUG,no
 Empire Builder,SPT,no

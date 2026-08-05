@@ -62,28 +62,42 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   background: rgba(255, 253, 247, .96);
   box-shadow: 0 12px 35px rgba(31, 42, 36, .18);
 }
+.route-card.route-card-mode { width: min(38rem, calc(100% - 2rem)); padding: 1.6rem 2.2rem 1.25rem; border-radius: 1rem; }
 
 .route-card h2 { margin: 0 0 .75rem; font-family: Georgia, serif; font-size: 1.5rem; }
+.route-card-mode h2 { margin-bottom: .25rem; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05; }
 .route-card h2 a { color: inherit; text-decoration-color: transparent; text-underline-offset: .12em; transition: color .15s ease, text-decoration-color .15s ease; }
 .route-card h2 a:hover { color: #9e3025; text-decoration-color: currentColor; }
-.route-list { display: grid; gap: .65rem; max-height: min(45vh, 22rem); margin: 0; padding: 0; overflow: auto; list-style: none; }
+.route-list { display: grid; gap: .65rem; max-height: min(62vh, 38rem); margin: 0; padding: 0; overflow: auto; list-style: none; }
 .route-list a { color: #9e3025; font-weight: 700; }
 .route-result, .station-route { display: grid; gap: .3rem; padding-bottom: .6rem; border-bottom: 1px solid #ded8cc; }
+.route-card-mode .route-result:only-child { padding-bottom: 0; border-bottom: 0; }
 .route-title { font-weight: 700; }
-.bike-statistics, .access-status { color: #59635d; font-size: .78rem; line-height: 1.35; }
+.route-card-mode .card-label { margin-bottom: .65rem; font-size: .82rem; letter-spacing: .18em; }
+.service-summary { margin: 0 0 1rem; color: #4c514f; font-size: 1rem; }
+.route-info-section { padding: 1rem 0; border-top: 1px solid #d7d1c4; }
+.route-info-section h3 { margin: 0 0 .75rem; color: #456650; font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.access-metric { display: flex; align-items: baseline; gap: 1.25rem; margin: 0 0 .65rem; }
+.access-metric strong { font-size: 1.45rem; }
+.access-metric span { color: #59605d; font-size: 1.25rem; font-weight: 700; }
+.access-progress { display: block; width: 72%; height: .65rem; overflow: hidden; border: 0; border-radius: 999px; background: #e5e2da; }
+.access-progress::-webkit-progress-bar { border-radius: 999px; background: #e5e2da; }
+.access-progress::-webkit-progress-value { border-radius: 999px; background: #1778b8; }
+.access-progress::-moz-progress-bar { border-radius: 999px; background: #1778b8; }
+.reservation-notice { width: min(100%, 25rem); margin: 0 0 .8rem; padding: .65rem .8rem; border: 1px solid; border-radius: .45rem; font-weight: 800; }
+.reservation-notice.required { border-color: #d99b16; color: #875b00; background: #fffaf0; }
+.reservation-notice.not-required { border-color: #6ca47f; color: #23713f; background: #f2faf4; }
+.requirements-list { display: grid; grid-template-columns: 1fr auto; gap: .5rem 1rem; margin: 0; }
+.requirements-list dt, .requirements-list dd { margin: 0; }
+.requirements-list dd { font-weight: 800; }
+.access-status { color: #59635d; font-size: .78rem; line-height: 1.35; }
 .wheel-warning { margin: .4rem 0; color: #9a6a00; font-size: .78rem; font-weight: 700; line-height: 1.35; }
-.service-options { display: grid; grid-template-columns: max-content max-content; gap: .25rem .75rem; margin: .35rem 0; font-size: .78rem; }
-.service-options dt, .service-options dd { margin: 0; }
-.service-options dt, .service-options dd { white-space: nowrap; }
-.service-options dd { font-weight: 700; }
-.service-options .available { color: #1769d2; }
-.service-options .unavailable { color: #a62e2e; }
-.service-options .warning { color: #9a6a00; }
-.service-options .success { color: #23713f; }
 .service-note { margin: .25rem 0; color: #59635d; font-size: .78rem; line-height: 1.4; }
 .station-route { min-width: 0; padding-left: .7rem; border-left: 4px solid; }
 .station-route.has-access { border-left-color: #1769d2; }
+.station-route.boxed-access { border-left-color: #9b315f; }
 .station-route.no-access { border-left-color: #c43131; }
+.boxed-note { margin: .2rem 0 0; color: #75405a; font-size: .75rem; line-height: 1.4; }
 .station-route-details { min-width: 0; }
 .station-route-details > summary { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .15rem .35rem; cursor: pointer; list-style: none; }
 .station-route-details > summary .access-status { grid-column: 2; }
@@ -93,24 +107,33 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .station-route-details[open] > summary::before { content: "▾"; }
 .station-route-details > summary::-webkit-details-marker { display: none; }
 .station-route-content { min-width: 0; margin: .65rem 0 .15rem; padding: .65rem; overflow: hidden; border-top: 1px solid #ded8cc; background: #f7f4ed; }
-.station-route-content .service-options { grid-template-columns: max-content minmax(0, 1fr); }
-.station-route-content .service-options dd { white-space: normal; }
-.station-route-content .bike-statistics { display: block; white-space: normal; }
+.station-route-content .service-summary { font-size: .85rem; }
+.station-route-content .route-info-section { padding: 0 0 .75rem; border-top: 0; }
 
 .legend { position: absolute; z-index: 1; left: 1rem; top: 1rem; display: grid; gap: .3rem; padding: .55rem .7rem; border-radius: .25rem; background: rgba(255,253,247,.92); color: #3f4b44; font-size: .7rem; box-shadow: 0 2px 10px rgba(31,42,36,.12); }
+.legend-title { margin: 0 0 .1rem; font-weight: 800; }
 .legend span { display: flex; align-items: center; gap: .4rem; }
 .dot { display: inline-block; width: .7rem; height: .7rem; border: 1px solid white; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,.2); }
 .dot-all { background: #1769d2; }
 .dot-some { background: #6b1f78; }
+.dot-boxed { background: #9b315f; }
 .dot-none { background: #c43131; }
-.stop-details { margin-top: .25rem; font-size: .78rem; }
-.stop-details summary { color: #38473f; font-weight: 700; cursor: pointer; }
+.stop-details { border-top: 1px solid #d7d1c4; font-size: .78rem; }
+.stop-details summary { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .65rem; padding-top: .9rem; color: #17332a; font-size: .95rem; font-weight: 800; cursor: pointer; list-style: none; }
+.stop-details summary::before { content: "›"; font-size: 1.5rem; line-height: .7; transition: transform .15s ease; }
+.stop-details[open] summary::before { transform: rotate(90deg); }
+.stop-details summary::-webkit-details-marker { display: none; }
+.stop-count { min-width: 2.25rem; padding: .25rem .6rem; border-radius: 999px; background: #e8e5dd; text-align: center; }
+.station-subview-stops .stop-count { white-space: nowrap; }
+.stop-access-progress { width: 100%; margin: .85rem 0 .25rem; }
 .stop-info-list { display: grid; gap: .35rem; max-height: 14rem; margin: .55rem 0 0; padding: 0 .25rem 0 0; overflow: auto; list-style: none; }
 .stop-info-list li { display: grid; gap: .08rem; padding: .35rem .45rem; border-left: 3px solid; background: #f7f4ed; }
 .stop-info-list li.has-access { border-left-color: #1769d2; }
+.stop-info-list li.boxed-access { border-left-color: #9b315f; }
 .stop-info-list li.no-access { border-left-color: #c43131; }
 .stop-info-list li span:last-child { color: #647069; font-size: .72rem; }
 .close-card { position: absolute; top: .7rem; right: .7rem; border: 0; background: transparent; font-size: 1.7rem; cursor: pointer; }
+.route-card-mode .close-card { top: 1.1rem; right: 1.25rem; font-size: 2rem; }
 .hint { position: absolute; z-index: 1; right: 1rem; bottom: .75rem; margin: 0; padding: .35rem .6rem; border-radius: .2rem; background: rgba(255,255,255,.85); color: #4b554f; font-size: .75rem; }
 .olmap-root .ol-zoom { top: 1rem; right: 1rem; left: auto; }
 .olmap-root .ol-attribution { font-size: .7rem; }
@@ -131,7 +154,6 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .faq-list p { margin: 0; color: #59635d; line-height: 1.65; }
 .route-card.list-route-card { position: relative; inset: auto; width: auto; padding: 1.2rem; box-shadow: 0 4px 16px rgba(31,42,36,.1); }
 .list-route-card .route-title { color: #9e3025; font-family: Georgia, serif; font-size: 1.35rem; }
-.list-route-card .bike-statistics { display: block; margin-top: .35rem; }
 .site-footer { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem clamp(1rem, 3vw, 3rem); border-top: 1px solid #d7d1c4; background: #fffdf7; color: #59635d; font-size: .75rem; }
 .site-footer a { color: #9e3025; font-weight: 700; }
 
@@ -161,7 +183,9 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .all-routes { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
   .route-card.list-route-card { max-height: none; padding: 1rem; overflow: visible; }
   .list-route-card .route-title { font-size: 1.2rem; }
-  .service-options { grid-template-columns: max-content max-content; }
+  .route-card.route-card-mode { padding: 1.2rem 1rem 1rem; border-radius: .7rem; }
+  .route-card-mode h2 { font-size: 1.8rem; }
+  .access-progress { width: 100%; }
   .stop-info-list { max-height: 18rem; }
   .site-footer { align-items: center; padding: .45rem .75rem; font-size: .68rem; }
 }
