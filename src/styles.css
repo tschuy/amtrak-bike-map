@@ -62,18 +62,30 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   background: rgba(255, 253, 247, .96);
   box-shadow: 0 12px 35px rgba(31, 42, 36, .18);
 }
-.route-card.route-card-mode { width: min(38rem, calc(100% - 2rem)); padding: 1.6rem 2.2rem 1.25rem; border-radius: 1rem; }
+.route-card.route-card-mode { width: min(38rem, calc(100% - 2rem)); }
+@media (min-width: 601px) {
+  .route-card.station-card-mode { width: min(38rem, calc(100% - 2rem)); }
+}
 
-.route-card h2 { margin: 0 0 .75rem; font-family: Georgia, serif; font-size: 1.5rem; }
-.route-card-mode h2 { margin-bottom: .25rem; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05; }
-.route-card h2 a { color: inherit; text-decoration-color: transparent; text-underline-offset: .12em; transition: color .15s ease, text-decoration-color .15s ease; }
-.route-card h2 a:hover { color: #9e3025; text-decoration-color: currentColor; }
+#route-name { margin: 0 0 .75rem; font-family: Georgia, serif; font-size: 1.5rem; }
+.route-card-mode #route-name { margin-bottom: .75rem; font-size: 1.5rem; line-height: 1.05; }
+#route-name a { color: inherit; text-decoration-color: transparent; text-underline-offset: .12em; transition: color .15s ease, text-decoration-color .15s ease; }
+#route-name a:hover { color: #9e3025; text-decoration-color: currentColor; }
 .route-list { display: grid; gap: .65rem; max-height: min(62vh, 38rem); margin: 0; padding: 0; overflow: auto; list-style: none; }
 .route-list a { color: #9e3025; font-weight: 700; }
 .route-result, .station-route { display: grid; gap: .3rem; padding-bottom: .6rem; border-bottom: 1px solid #ded8cc; }
 .route-card-mode .route-result:only-child { padding-bottom: 0; border-bottom: 0; }
 .route-title { font-weight: 700; }
 .route-card-mode .card-label { margin-bottom: .65rem; font-size: .82rem; letter-spacing: .18em; }
+.route-card-mode .service-summary { margin-bottom: .75rem; font-size: .85rem; }
+.route-card-mode .route-info-section { padding: .75rem 0; }
+.route-card-mode .route-info-section h3 { margin-bottom: .55rem; font-size: .7rem; }
+.route-card-mode .access-metric { gap: .8rem; margin-bottom: .5rem; }
+.route-card-mode .access-metric strong { font-size: 1.05rem; }
+.route-card-mode .access-metric span { font-size: .9rem; }
+.route-card-mode .access-progress { height: .5rem; }
+.route-card-mode .reservation-notice { margin-bottom: .6rem; padding: .5rem .65rem; font-size: .8rem; }
+.route-card-mode .requirements-list { font-size: .8rem; }
 .service-summary { margin: 0 0 1rem; color: #4c514f; font-size: 1rem; }
 .route-info-section { padding: 1rem 0; border-top: 1px solid #d7d1c4; }
 .route-info-section h3 { margin: 0 0 .75rem; color: #456650; font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
@@ -168,7 +180,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .view-switch button { min-height: 36px; padding-inline: .8rem; }
   .faq-button { min-height: 36px; }
   .route-card { right: .75rem; bottom: 4rem; left: .75rem; width: auto; max-height: calc(100% - 5rem); padding: 1rem; overflow: auto; }
-  .route-card:not(.list-route-card) h2 { padding-right: 1.75rem; }
+  .route-card:not(.list-route-card) #route-name { padding-right: 1.75rem; }
   .route-list { max-height: none; overflow: visible; }
   .legend { top: .75rem; left: .75rem; }
   .olmap-root .ol-zoom { top: .75rem; right: .75rem; }
@@ -183,8 +195,6 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .all-routes { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
   .route-card.list-route-card { max-height: none; padding: 1rem; overflow: visible; }
   .list-route-card .route-title { font-size: 1.2rem; }
-  .route-card.route-card-mode { padding: 1.2rem 1rem 1rem; border-radius: .7rem; }
-  .route-card-mode h2 { font-size: 1.8rem; }
   .access-progress { width: 100%; }
   .stop-info-list { max-height: 18rem; }
   .site-footer { align-items: center; padding: .45rem .75rem; font-size: .68rem; }

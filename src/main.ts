@@ -262,8 +262,27 @@ function showRoutes(features: MapFeatureDetails[]): void {
   }
   routeList.replaceChildren(...routes.map((route) => {
     const item = document.createElement('li')
-    item.className = 'route-result'
-    item.append(routeContent(route, routes.length !== 1))
+    if (routes.length === 1) {
+      item.className = 'route-result'
+      item.append(routeContent(route, false))
+    } else {
+      const hasAccess = route.properties.carry_on === 'yes' || route.properties.checked === 'yes'
+      item.className = `station-route ${hasAccess ? 'has-access' : 'no-access'}`
+      const details = document.createElement('details')
+      details.className = 'station-route-details'
+      const summary = document.createElement('summary')
+      const name = document.createElement('span')
+      name.textContent = route.name
+      const status = document.createElement('span')
+      status.className = 'access-status'
+      status.textContent = hasAccess ? routeBikeAccessLabel(route) : 'No bike access'
+      summary.append(name, status)
+      const detailsContent = document.createElement('div')
+      detailsContent.className = 'station-route-content'
+      detailsContent.append(routeContent(route, false, true))
+      details.append(summary, detailsContent)
+      item.append(details)
+    }
     return item
   }))
   routeCard.hidden = false
