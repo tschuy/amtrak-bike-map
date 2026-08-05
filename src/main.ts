@@ -22,6 +22,22 @@ const homeLink = document.querySelector<HTMLAnchorElement>('#home-link')!
 
 type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
+type StationRoute = { route_id: string; name: string; status: string; has_access: boolean }
+
+let routeInfoPromise: Promise<RouteInfo[]> | undefined
+let stopRenderVersion = 0
+
+function loadRouteInfo(): Promise<RouteInfo[]> {
+  routeInfoPromise ??= fetch('/amtrak-route-summaries.json').then(async (response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    const data = await response.json() as Array<Record<string, string | number | boolean | null>>
+    return data.map((properties) => ({
+      name: String(properties.route_long_name ?? 'Amtrak route'),
+      properties,
+    } satisfies RouteInfo)).sort((left, right) => left.name.localeCompare(right.name))
+  })
+  return routeInfoPromise
+}
 
 function bikeAccessLabel(status: string, hasAccess: boolean): string {
   if (status === 'yes') return 'Bike access'
@@ -45,18 +61,20 @@ const config = validateConfig({
   kml_groups: { hardcoded: {}, generated: {} },
 })
 
-function routeContent(route: RouteInfo): DocumentFragment {
+function routeContent(route: RouteInfo, includeTitle = true): DocumentFragment {
   const content = document.createDocumentFragment()
   const url = route.properties.route_url
-  const title = document.createElement(typeof url === 'string' && url ? 'a' : 'span')
-  title.className = 'route-title'
-  title.textContent = route.name
-  if (title instanceof HTMLAnchorElement) {
-    title.href = String(url)
-    title.target = '_blank'
-    title.rel = 'noreferrer'
+  if (includeTitle) {
+    const title = document.createElement(typeof url === 'string' && url ? 'a' : 'span')
+    title.className = 'route-title'
+    title.textContent = route.name
+    if (title instanceof HTMLAnchorElement) {
+      title.href = String(url)
+      title.target = '_blank'
+      title.rel = 'noreferrer'
+    }
+    content.append(title)
   }
-  content.append(title)
 
   const access = Number(route.properties.bike_access_count)
   const noAccess = Number(route.properties.bike_no_access_count)
@@ -69,6 +87,13 @@ function routeContent(route: RouteInfo): DocumentFragment {
     : 'Bike access data unavailable'
   content.append(statistics)
 
+  if (route.properties.remove_wheel === 'yes') {
+    const wheelWarning = document.createElement('p')
+    wheelWarning.className = 'wheel-warning'
+    wheelWarning.textContent = '⚠ Must remove front wheel while storing bike'
+    content.append(wheelWarning)
+  }
+
   const serviceOptions = document.createElement('dl')
   serviceOptions.className = 'service-options'
   const addService = (label: string, available: boolean): void => {
@@ -79,8 +104,28 @@ function routeContent(route: RouteInfo): DocumentFragment {
     value.textContent = available ? 'Available' : 'Not available'
     serviceOptions.append(term, value)
   }
-  addService('Carry-on bicycle service', route.properties.carry_on === 'yes')
-  addService('Checked bicycle service', route.properties.checked === 'yes')
+  const carryOnAvailable = route.properties.carry_on === 'yes'
+  const checkedAvailable = route.properties.checked === 'yes'
+  addService('Carry-on bicycle service', carryOnAvailable)
+  addService('Checked bicycle service', checkedAvailable)
+
+  if (carryOnAvailable || checkedAvailable) {
+    const reservationRequired = route.properties.reservation_required !== 'no'
+    const reservationTerm = document.createElement('dt')
+    reservationTerm.textContent = 'Reservation'
+    const reservationValue = document.createElement('dd')
+    reservationValue.className = reservationRequired ? 'warning' : 'success'
+    reservationValue.textContent = reservationRequired ? '⚠ Reservation required' : '✓ No reservation required'
+
+    const tireWidth = typeof route.properties.tire_width === 'string' && route.properties.tire_width.trim()
+      ? route.properties.tire_width.trim()
+      : '2'
+    const tireTerm = document.createElement('dt')
+    tireTerm.textContent = 'Tire width'
+    const tireValue = document.createElement('dd')
+    tireValue.textContent = `Up to ${tireWidth}\"`
+    serviceOptions.append(reservationTerm, reservationValue, tireTerm, tireValue)
+  }
   content.append(serviceOptions)
 
   const note = route.properties.service_note
@@ -117,27 +162,34 @@ function routeContent(route: RouteInfo): DocumentFragment {
 }
 
 function showRoutes(features: MapFeatureDetails[]): void {
+  stopRenderVersion += 1
   const routes = [...new Map(features.map((feature) => [String(feature.properties.route_id), feature])).values()]
     .sort((left, right) => left.name.localeCompare(right.name))
   cardLabel.textContent = routes.length === 1 ? 'Amtrak route' : `${routes.length} Amtrak routes`
-  routeName.textContent = routes.length === 1 ? routes[0].name : 'Routes at this location'
+  routeName.textContent = routes.length === 1 ? '' : 'Routes at this location'
+  if (routes.length === 1) {
+    const route = routes[0]
+    const url = route.properties.route_url
+    const heading = document.createElement(typeof url === 'string' && url ? 'a' : 'span')
+    heading.textContent = route.name
+    if (heading instanceof HTMLAnchorElement) {
+      heading.href = String(url)
+      heading.target = '_blank'
+      heading.rel = 'noreferrer'
+    }
+    routeName.append(heading)
+  }
   routeList.replaceChildren(...routes.map((route) => {
     const item = document.createElement('li')
     item.className = 'route-result'
-    item.append(routeContent(route))
+    item.append(routeContent(route, routes.length !== 1))
     return item
   }))
   routeCard.hidden = false
 }
 
 async function populateRouteList(): Promise<void> {
-  const response = await fetch('/amtrak-route-summaries.json')
-  if (!response.ok) throw new Error(`HTTP ${response.status}`)
-  const data = await response.json() as Array<Record<string, string | number | boolean | null>>
-  const routes = data.map((properties) => ({
-    name: String(properties.route_long_name ?? 'Amtrak route'),
-    properties,
-  } satisfies RouteInfo)).sort((left, right) => left.name.localeCompare(right.name))
+  const routes = await loadRouteInfo()
   allRoutes.replaceChildren(...routes.map((route) => {
     const article = document.createElement('article')
     article.className = 'route-card list-route-card'
@@ -146,13 +198,20 @@ async function populateRouteList(): Promise<void> {
   }))
 }
 
-function showStop(feature: MapFeatureDetails): void {
+async function showStop(feature: MapFeatureDetails): Promise<void> {
+  const renderVersion = ++stopRenderVersion
   cardLabel.textContent = 'Amtrak station'
   routeName.textContent = feature.name
-  routeList.replaceChildren()
+  routeList.textContent = 'Loading service details…'
+  routeCard.hidden = false
   const encodedRoutes = feature.properties.bike_routes
   if (typeof encodedRoutes === 'string') {
-    const routes = JSON.parse(encodedRoutes) as Array<{ name: string; status: string; has_access: boolean }>
+    const routes = (JSON.parse(encodedRoutes) as StationRoute[]).sort((left, right) =>
+      Number(right.has_access) - Number(left.has_access) || left.name.localeCompare(right.name),
+    )
+    const routeInfo = await loadRouteInfo().catch(() => [])
+    if (renderVersion !== stopRenderVersion) return
+    const routeInfoById = new Map(routeInfo.map((route) => [String(route.properties.route_id), route]))
     routeList.replaceChildren(...routes.map((route) => {
       const item = document.createElement('li')
       item.className = `station-route ${route.has_access ? 'has-access' : 'no-access'}`
@@ -161,11 +220,23 @@ function showStop(feature: MapFeatureDetails): void {
       const status = document.createElement('span')
       status.className = 'access-status'
       status.textContent = bikeAccessLabel(route.status, route.has_access)
-      item.append(name, status)
+      const detailsRoute = routeInfoById.get(String(route.route_id))
+      if (route.has_access && detailsRoute) {
+        const details = document.createElement('details')
+        details.className = 'station-route-details'
+        const summary = document.createElement('summary')
+        summary.append(name, status)
+        const content = document.createElement('div')
+        content.className = 'station-route-content'
+        content.append(routeContent(detailsRoute, false))
+        details.append(summary, content)
+        item.append(details)
+      } else {
+        item.append(name, status)
+      }
       return item
     }))
   }
-  routeCard.hidden = false
 }
 
 function handleEvent(event: TrailheadMapEvent): void {
@@ -174,17 +245,20 @@ function handleEvent(event: TrailheadMapEvent): void {
     if (event.layer.status === 'error') statusElement.textContent = 'Route data could not be loaded'
   }
   if (event.type === 'feature-select' && event.feature.kind === 'transit-route') showRoutes([event.feature])
-  if (event.type === 'feature-select' && event.feature.kind === 'transit-stop') showStop(event.feature)
+  if (event.type === 'feature-select' && event.feature.kind === 'transit-stop') void showStop(event.feature)
   if (event.type === 'features-select') {
     const stop = event.features.find((feature) => feature.kind === 'transit-stop')
     if (stop) {
-      showStop(stop)
+      void showStop(stop)
       return
     }
     const routes = event.features.filter((feature) => feature.kind === 'transit-route')
     if (routes.length) showRoutes(routes)
   }
-  if (event.type === 'selection-clear') routeCard.hidden = true
+  if (event.type === 'selection-clear') {
+    stopRenderVersion += 1
+    routeCard.hidden = true
+  }
 }
 
 const controller = createTrailheadMap({

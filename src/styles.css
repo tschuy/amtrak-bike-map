@@ -55,7 +55,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   z-index: 2;
   left: clamp(1rem, 3vw, 3rem);
   bottom: 2rem;
-  width: min(22rem, calc(100% - 2rem));
+  width: min(25rem, calc(100% - 2rem));
   padding: 1.15rem 3rem 1.2rem 1.25rem;
   border: 1px solid #d7d1c4;
   border-radius: .3rem;
@@ -64,20 +64,38 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 }
 
 .route-card h2 { margin: 0 0 .75rem; font-family: Georgia, serif; font-size: 1.5rem; }
+.route-card h2 a { color: inherit; text-decoration-color: transparent; text-underline-offset: .12em; transition: color .15s ease, text-decoration-color .15s ease; }
+.route-card h2 a:hover { color: #9e3025; text-decoration-color: currentColor; }
 .route-list { display: grid; gap: .65rem; max-height: min(45vh, 22rem); margin: 0; padding: 0; overflow: auto; list-style: none; }
 .route-list a { color: #9e3025; font-weight: 700; }
 .route-result, .station-route { display: grid; gap: .3rem; padding-bottom: .6rem; border-bottom: 1px solid #ded8cc; }
 .route-title { font-weight: 700; }
 .bike-statistics, .access-status { color: #59635d; font-size: .78rem; line-height: 1.35; }
-.service-options { display: grid; grid-template-columns: 1fr auto; gap: .25rem .75rem; margin: .35rem 0; font-size: .78rem; }
+.wheel-warning { margin: .4rem 0; color: #9a6a00; font-size: .78rem; font-weight: 700; line-height: 1.35; }
+.service-options { display: grid; grid-template-columns: max-content max-content; gap: .25rem .75rem; margin: .35rem 0; font-size: .78rem; }
 .service-options dt, .service-options dd { margin: 0; }
+.service-options dt, .service-options dd { white-space: nowrap; }
 .service-options dd { font-weight: 700; }
 .service-options .available { color: #1769d2; }
 .service-options .unavailable { color: #a62e2e; }
+.service-options .warning { color: #9a6a00; }
+.service-options .success { color: #23713f; }
 .service-note { margin: .25rem 0; color: #59635d; font-size: .78rem; line-height: 1.4; }
-.station-route { padding-left: .7rem; border-left: 4px solid; }
+.station-route { min-width: 0; padding-left: .7rem; border-left: 4px solid; }
 .station-route.has-access { border-left-color: #1769d2; }
 .station-route.no-access { border-left-color: #c43131; }
+.station-route-details { min-width: 0; }
+.station-route-details > summary { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .15rem .35rem; cursor: pointer; list-style: none; }
+.station-route-details > summary .access-status { grid-column: 2; }
+.station-route-details[open] > summary { grid-template-columns: auto minmax(0, 1fr) auto; gap: .35rem; }
+.station-route-details[open] > summary .access-status { grid-column: auto; }
+.station-route-details > summary::before { content: "▸"; color: #59635d; font-size: .75rem; }
+.station-route-details[open] > summary::before { content: "▾"; }
+.station-route-details > summary::-webkit-details-marker { display: none; }
+.station-route-content { min-width: 0; margin: .65rem 0 .15rem; padding: .65rem; overflow: hidden; border-top: 1px solid #ded8cc; background: #f7f4ed; }
+.station-route-content .service-options { grid-template-columns: max-content minmax(0, 1fr); }
+.station-route-content .service-options dd { white-space: normal; }
+.station-route-content .bike-statistics { display: block; white-space: normal; }
 
 .legend { position: absolute; z-index: 1; left: 1rem; top: 1rem; display: grid; gap: .3rem; padding: .55rem .7rem; border-radius: .25rem; background: rgba(255,253,247,.92); color: #3f4b44; font-size: .7rem; box-shadow: 0 2px 10px rgba(31,42,36,.12); }
 .legend span { display: flex; align-items: center; gap: .4rem; }
@@ -127,7 +145,8 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .view-switch { flex: 0 0 auto; }
   .view-switch button { min-height: 36px; padding-inline: .8rem; }
   .faq-button { min-height: 36px; }
-  .route-card { right: .75rem; bottom: 4rem; left: .75rem; width: auto; max-height: calc(100% - 5rem); padding: 1rem 2.75rem 1rem 1rem; overflow: auto; }
+  .route-card { right: .75rem; bottom: 4rem; left: .75rem; width: auto; max-height: calc(100% - 5rem); padding: 1rem; overflow: auto; }
+  .route-card:not(.list-route-card) h2 { padding-right: 1.75rem; }
   .route-list { max-height: none; overflow: visible; }
   .legend { top: .75rem; left: .75rem; }
   .olmap-root .ol-zoom { top: .75rem; right: .75rem; }
@@ -142,7 +161,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .all-routes { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
   .route-card.list-route-card { max-height: none; padding: 1rem; overflow: visible; }
   .list-route-card .route-title { font-size: 1.2rem; }
-  .service-options { grid-template-columns: minmax(0, 1fr) auto; }
+  .service-options { grid-template-columns: max-content max-content; }
   .stop-info-list { max-height: 18rem; }
   .site-footer { align-items: center; padding: .45rem .75rem; font-size: .68rem; }
 }

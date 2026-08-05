@@ -143,6 +143,9 @@ def main() -> None:
             "bike_stations": json.dumps(bike_stations, separators=(",", ":")),
             "carry_on": services.get("carry_on", "no"),
             "checked": services.get("checked", "no"),
+            "reservation_required": services.get("reservation_required", ""),
+            "tire_width": services.get("tire_width", ""),
+            "remove_wheel": services.get("remove_wheel", ""),
             "service_note": services.get("note", ""),
         }
     for shape_id, route_id in sorted(shape_routes.items()):
@@ -164,7 +167,7 @@ def main() -> None:
             name = routes[route_id]["route_long_name"]
             statuses = route_bike_rows(name, bike_data)
             status = statuses.get(code, "unavailable")
-            served_routes.append({"name": name, "status": status, "has_access": status in BIKE_ACCESS})
+            served_routes.append({"route_id": route_id, "name": name, "status": status, "has_access": status in BIKE_ACCESS})
         access_count = sum(route["has_access"] for route in served_routes)
         level = "all" if served_routes and access_count == len(served_routes) else "some" if access_count else "none"
         color = {"all": "#1769d2", "some": "#8136a6", "none": "#c43131"}[level]
