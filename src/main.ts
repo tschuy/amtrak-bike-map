@@ -218,6 +218,7 @@ const controller = createTrailheadMap({
     maxZoom: 19,
   },
   initialView: lonLatView(-98.5, 39.5, 4),
+  cooperativeGestures: false,
   reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   onEvent: handleEvent,
 })
@@ -235,6 +236,7 @@ function setView(view: View, updateHistory = true): void {
   mapViewButton.setAttribute('aria-pressed', String(showMap))
   listViewButton.setAttribute('aria-pressed', String(showList))
   faqViewButton.setAttribute('aria-pressed', String(showFaq))
+  document.body.classList.toggle('map-view-active', showMap)
   document.title = showFaq ? 'FAQ · Amtrak Bicycle Access' : 'Amtrak Bicycle Access'
   if (updateHistory) history.pushState({ view }, '', showFaq ? '#faq' : showList ? '#list' : window.location.pathname)
   if (showMap) requestAnimationFrame(() => controller.updateSize())

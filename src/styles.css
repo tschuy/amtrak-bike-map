@@ -11,6 +11,8 @@
 html, body { margin: 0; min-width: 320px; min-height: 100%; }
 
 body { min-height: 100vh; }
+body.map-view-active { height: 100vh; overflow: hidden; }
+body.map-view-active .app { height: 100vh; }
 
 .app { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
 
@@ -92,10 +94,6 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .stop-info-list li span:last-child { color: #647069; font-size: .72rem; }
 .close-card { position: absolute; top: .7rem; right: .7rem; border: 0; background: transparent; font-size: 1.7rem; cursor: pointer; }
 .hint { position: absolute; z-index: 1; right: 1rem; bottom: .75rem; margin: 0; padding: .35rem .6rem; border-radius: .2rem; background: rgba(255,255,255,.85); color: #4b554f; font-size: .75rem; }
-.map-instruction { position: absolute; z-index: 1; left: 50%; bottom: .75rem; max-width: calc(100% - 14rem); margin: 0; padding: .35rem .6rem; transform: translateX(-50%); border-radius: .2rem; background: rgba(255,255,255,.88); color: #4b554f; font-size: .72rem; text-align: center; }
-.map-instruction kbd { padding: .05rem .2rem; border: 1px solid #c7c3ba; border-radius: .18rem; background: #fff; font: inherit; box-shadow: 0 1px 0 #aaa; }
-.mobile-map-instruction { display: none; }
-
 .olmap-root .olmap-location-control { top: 1rem; right: 1rem; left: auto; }
 .olmap-root .ol-zoom { top: 4.75rem; right: 1rem; left: auto; }
 .olmap-root .ol-attribution { font-size: .7rem; }
@@ -122,6 +120,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 
 @media (max-width: 600px) {
   .app { min-height: 100dvh; }
+  body.map-view-active, body.map-view-active .app { height: 100dvh; }
   .masthead { align-items: stretch; flex-direction: column; gap: .65rem; padding: .8rem .75rem; }
   h1 { font-size: 1.6rem; }
   .header-tools { width: 100%; justify-content: space-between; gap: .65rem; }
@@ -135,8 +134,6 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .olmap-root .olmap-location-control { top: .75rem; right: .75rem; }
   .olmap-root .ol-zoom { top: 3.75rem; right: .75rem; }
   .hint { display: none; }
-  .desktop-map-instruction { display: none; }
-  .mobile-map-instruction { display: block; bottom: 2rem; width: max-content; max-width: calc(100% - 1.5rem); font-size: .68rem; }
   .olmap-root .ol-attribution { right: .25rem; bottom: .15rem; max-width: calc(100% - .5rem); padding: 1px; font-size: .55rem; line-height: 1.05; }
   .olmap-root .ol-attribution ul { max-width: none; margin: 0; overflow: visible; white-space: normal; }
   .list-view { padding: 1rem .75rem 1.5rem; }
