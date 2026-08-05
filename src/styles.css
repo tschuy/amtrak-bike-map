@@ -35,7 +35,7 @@ body.map-view-active .app { height: 100vh; }
   text-transform: uppercase;
 }
 
-h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1; }
+h1 { margin: 0; font-family: "Bungee", Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 400; line-height: 1; }
 h1 a { color: inherit; text-decoration: none; }
 h1 a:hover { text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .12em; }
 h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4px; border-radius: .1rem; }
@@ -83,6 +83,8 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .route-card-mode .access-metric { gap: .8rem; margin-bottom: .5rem; }
 .route-card-mode .access-metric strong { font-size: 1.05rem; }
 .route-card-mode .access-metric span { font-size: .9rem; }
+.list-route-card .access-metric strong { font-size: 1.05rem; }
+.list-route-card .access-metric span { font-size: .9rem; }
 .route-card-mode .access-progress { height: .5rem; }
 .route-card-mode .reservation-notice { margin-bottom: .6rem; padding: .5rem .65rem; font-size: .8rem; }
 .route-card-mode .requirements-list { font-size: .8rem; }
@@ -121,6 +123,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .station-route-content { min-width: 0; margin: .65rem 0 .15rem; padding: .65rem; overflow: hidden; border-top: 1px solid #ded8cc; background: #f7f4ed; }
 .station-route-content .service-summary { font-size: .85rem; }
 .station-route-content .route-info-section { padding: 0 0 .75rem; border-top: 0; }
+.station-route-content .stop-details:first-child { border-top: 0; }
 
 .legend { position: absolute; z-index: 1; left: 1rem; top: 1rem; display: grid; gap: .3rem; padding: .55rem .7rem; border-radius: .25rem; background: rgba(255,253,247,.92); color: #3f4b44; font-size: .7rem; box-shadow: 0 2px 10px rgba(31,42,36,.12); }
 .legend-title { margin: 0 0 .1rem; font-weight: 800; }
@@ -173,7 +176,8 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
   .app { min-height: 100dvh; }
   body.map-view-active, body.map-view-active .app { height: 100dvh; }
   .masthead { align-items: stretch; flex-direction: column; gap: .65rem; padding: .8rem .75rem; }
-  h1 { font-size: 1.6rem; }
+  .masthead > div:first-child, h1, h1 a { display: block; width: 100%; }
+  h1 { padding-inline: .15rem; font-size: clamp(1.15rem, 6vw, 1.65rem); white-space: nowrap; }
   .header-tools { width: 100%; justify-content: space-between; gap: .65rem; }
   .status { max-width: 12rem; font-size: .68rem; text-align: left; }
   .view-switch { flex: 0 0 auto; }

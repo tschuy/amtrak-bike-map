@@ -189,7 +189,7 @@ function routeContent(route: RouteInfo, includeTitle = true, stationSubview = fa
     noteElement.textContent = note
     requirements.append(noteElement)
   }
-  content.append(requirements)
+  if (access !== 0) content.append(requirements)
 
   const encodedStations = route.properties.bike_stations
   if (typeof encodedStations === 'string') {
