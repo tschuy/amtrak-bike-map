@@ -117,7 +117,7 @@ h1 a:focus-visible { outline: 3px solid rgba(36, 84, 63, .3); outline-offset: 4p
 .station-route-details > summary .access-status { grid-column: 2; }
 .station-route-details[open] > summary { grid-template-columns: auto minmax(0, 1fr) auto; gap: .35rem; }
 .station-route-details[open] > summary .access-status { grid-column: auto; }
-.station-route-details > summary::before { content: "▸"; color: #59635d; font-size: .75rem; }
+.station-route-details > summary::before { content: "▸"; color: #59635d; font-size: 1rem; }
 .station-route-details[open] > summary::before { content: "▾"; }
 .station-route-details > summary::-webkit-details-marker { display: none; }
 .station-route-content { min-width: 0; margin: .65rem 0 .15rem; padding: .65rem; overflow: hidden; border-top: 1px solid #ded8cc; background: #f7f4ed; }

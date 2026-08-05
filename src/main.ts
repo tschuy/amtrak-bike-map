@@ -240,6 +240,38 @@ function routeContent(route: RouteInfo, includeTitle = true, stationSubview = fa
   return content
 }
 
+function routeRow(route: StationRoute, detailsRoute?: RouteInfo): HTMLLIElement {
+  const item = document.createElement('li')
+  item.className = `station-route ${route.status === 'boxed' ? 'boxed-access' : route.has_access ? 'has-access' : 'no-access'}`
+  const name = document.createElement('span')
+  name.textContent = route.name
+  const status = document.createElement('span')
+  status.className = 'access-status'
+  status.textContent = route.has_access && detailsRoute
+    ? routeBikeAccessLabel(detailsRoute)
+    : bikeAccessLabel(route.status, route.has_access)
+  if (route.has_access && detailsRoute) {
+    const details = document.createElement('details')
+    details.className = 'station-route-details'
+    const summary = document.createElement('summary')
+    summary.append(name, status)
+    const content = document.createElement('div')
+    content.className = 'station-route-content'
+    content.append(routeContent(detailsRoute, false, true))
+    details.append(summary, content)
+    item.append(details)
+  } else {
+    item.append(name, status)
+    if (route.status === 'boxed') {
+      const note = document.createElement('p')
+      note.className = 'boxed-note'
+      note.textContent = 'Boxed bikes accepted as checked baggage. Boxes sold at station, tools not available.'
+      item.append(note)
+    }
+  }
+  return item
+}
+
 function showRoutes(features: MapFeatureDetails[]): void {
   stopRenderVersion += 1
   const routes = [...new Map(features.map((feature) => [String(feature.properties.route_id), feature])).values()]
@@ -261,29 +293,19 @@ function showRoutes(features: MapFeatureDetails[]): void {
     routeName.append(heading)
   }
   routeList.replaceChildren(...routes.map((route) => {
-    const item = document.createElement('li')
     if (routes.length === 1) {
+      const item = document.createElement('li')
       item.className = 'route-result'
       item.append(routeContent(route, false))
-    } else {
-      const hasAccess = route.properties.carry_on === 'yes' || route.properties.checked === 'yes'
-      item.className = `station-route ${hasAccess ? 'has-access' : 'no-access'}`
-      const details = document.createElement('details')
-      details.className = 'station-route-details'
-      const summary = document.createElement('summary')
-      const name = document.createElement('span')
-      name.textContent = route.name
-      const status = document.createElement('span')
-      status.className = 'access-status'
-      status.textContent = hasAccess ? routeBikeAccessLabel(route) : 'No bike access'
-      summary.append(name, status)
-      const detailsContent = document.createElement('div')
-      detailsContent.className = 'station-route-content'
-      detailsContent.append(routeContent(route, false, true))
-      details.append(summary, detailsContent)
-      item.append(details)
+      return item
     }
-    return item
+    const hasAccess = route.properties.carry_on === 'yes' || route.properties.checked === 'yes'
+    return routeRow({
+      route_id: String(route.properties.route_id),
+      name: route.name,
+      status: hasAccess ? 'yes' : 'no',
+      has_access: hasAccess,
+    }, route)
   }))
   routeCard.hidden = false
 }
@@ -314,38 +336,9 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
     const routeInfo = await loadRouteInfo().catch(() => [])
     if (renderVersion !== stopRenderVersion) return
     const routeInfoById = new Map(routeInfo.map((route) => [String(route.properties.route_id), route]))
-    routeList.replaceChildren(...routes.map((route) => {
-      const item = document.createElement('li')
-      item.className = `station-route ${route.status === 'boxed' ? 'boxed-access' : route.has_access ? 'has-access' : 'no-access'}`
-      const name = document.createElement('span')
-      name.textContent = route.name
-      const detailsRoute = routeInfoById.get(String(route.route_id))
-      const status = document.createElement('span')
-      status.className = 'access-status'
-      status.textContent = route.has_access && detailsRoute
-        ? routeBikeAccessLabel(detailsRoute)
-        : bikeAccessLabel(route.status, route.has_access)
-      if (route.has_access && detailsRoute) {
-        const details = document.createElement('details')
-        details.className = 'station-route-details'
-        const summary = document.createElement('summary')
-        summary.append(name, status)
-        const content = document.createElement('div')
-        content.className = 'station-route-content'
-        content.append(routeContent(detailsRoute, false, true))
-        details.append(summary, content)
-        item.append(details)
-      } else {
-        item.append(name, status)
-        if (route.status === 'boxed') {
-          const note = document.createElement('p')
-          note.className = 'boxed-note'
-          note.textContent = 'Boxed bikes accepted as checked baggage. Boxes sold at station, tools not available.'
-          item.append(note)
-        }
-      }
-      return item
-    }))
+    routeList.replaceChildren(...routes.map((route) =>
+      routeRow(route, routeInfoById.get(String(route.route_id))),
+    ))
   }
 }
 
