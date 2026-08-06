@@ -25,12 +25,13 @@ type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
 type StationRoute = { route_id: string; name: string; status: string; has_access: boolean }
 type StopCollection = { features: Array<{ properties?: { bike_access_level?: unknown } }> }
-type StationLabel = { name: string; coordinate: [number, number] }
+type StationLabel = { name: string; coordinate: [number, number]; routeIds: string[] }
 type AccessLevel = 'all' | 'some' | 'boxed' | 'none'
 
 let routeInfoPromise: Promise<RouteInfo[]> | undefined
 let networkSummaryPromise: Promise<string> | undefined
 let stationLabelsPromise: Promise<StationLabel[]> | undefined
+let emphasizedRouteIds: Set<string> | undefined
 let stopRenderVersion = 0
 
 const stationLabelLayer = document.createElement('div')
@@ -45,7 +46,7 @@ function loadStationLabels(): Promise<StationLabel[]> {
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     const data = await response.json() as {
       features: Array<{
-        properties?: { stop_name?: unknown }
+        properties?: { stop_name?: unknown; bike_routes?: unknown }
         geometry?: { type?: unknown; coordinates?: unknown }
       }>
     }
@@ -55,6 +56,16 @@ function loadStationLabels(): Promise<StationLabel[]> {
         || typeof coordinates[0] !== 'number' || typeof coordinates[1] !== 'number') return []
       const name = properties?.stop_name
       if (typeof name !== 'string') return []
+      let routeIds: string[] = []
+      if (typeof properties?.bike_routes === 'string') {
+        try {
+          routeIds = (JSON.parse(properties.bike_routes) as Array<{ route_id?: unknown }>)
+            .map(({ route_id }) => String(route_id ?? ''))
+            .filter(Boolean)
+        } catch {
+          routeIds = []
+        }
+      }
       const longitude = coordinates[0]
       const latitude = Math.max(-85.05112878, Math.min(85.05112878, coordinates[1]))
       const earthRadius = 6378137
@@ -64,6 +75,7 @@ function loadStationLabels(): Promise<StationLabel[]> {
           earthRadius * longitude * Math.PI / 180,
           earthRadius * Math.log(Math.tan(Math.PI / 4 + latitude * Math.PI / 360)),
         ],
+        routeIds,
       } satisfies StationLabel]
     })
   })
@@ -81,6 +93,7 @@ async function renderStationLabels(view: { center: [number, number]; zoom: numbe
   const resolution = 156543.03392804097 / 2 ** view.zoom
   const fragment = document.createDocumentFragment()
   for (const station of labels) {
+    if (emphasizedRouteIds && !station.routeIds.some((routeId) => emphasizedRouteIds?.has(routeId))) continue
     const x = (station.coordinate[0] - view.center[0]) / resolution + width / 2
     const y = (view.center[1] - station.coordinate[1]) / resolution + height / 2
     if (x < -160 || x > width || y < -20 || y > height + 20) continue
@@ -90,6 +103,12 @@ async function renderStationLabels(view: { center: [number, number]; zoom: numbe
     fragment.append(label)
   }
   stationLabelLayer.replaceChildren(fragment)
+}
+
+function setRouteEmphasis(routeIds?: string[]): void {
+  emphasizedRouteIds = routeIds ? new Set(routeIds) : undefined
+  controller.setTransitRouteEmphasis(routeIds)
+  void renderStationLabels(controller.getState().view)
 }
 
 function expandRouteCard(): void {
@@ -361,7 +380,7 @@ function showRoutes(features: MapFeatureDetails[]): void {
     .sort((left, right) => left.name.localeCompare(right.name))
   const accessLevels = new Set(routes.map(routeAccessLevel))
   setCardAccessLevel(accessLevels.size === 1 ? [...accessLevels][0] : 'some')
-  controller.setTransitRouteEmphasis(routes.map((route) => String(route.properties.route_id)))
+  setRouteEmphasis(routes.map((route) => String(route.properties.route_id)))
   routeCard.classList.add('route-card-mode')
   routeCard.classList.remove('station-card-mode')
   cardLabel.textContent = routes.length === 1 ? 'Amtrak route' : `${routes.length} Amtrak routes`
@@ -424,7 +443,7 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
     const routes = (JSON.parse(encodedRoutes) as StationRoute[]).sort((left, right) =>
       Number(right.has_access) - Number(left.has_access) || left.name.localeCompare(right.name),
     )
-    controller.setTransitRouteEmphasis(routes.map((route) => String(route.route_id)))
+    setRouteEmphasis(routes.map((route) => String(route.route_id)))
     const routeInfo = await loadRouteInfo().catch(() => [])
     if (renderVersion !== stopRenderVersion) return
     const routeInfoById = new Map(routeInfo.map((route) => [String(route.properties.route_id), route]))
@@ -457,7 +476,7 @@ function handleEvent(event: TrailheadMapEvent): void {
   }
   if (event.type === 'selection-clear') {
     stopRenderVersion += 1
-    controller.setTransitRouteEmphasis()
+    setRouteEmphasis()
     routeCard.hidden = true
   }
 }
