@@ -10,6 +10,7 @@ const routeCard = document.querySelector<HTMLElement>('#route-card')!
 const cardLabel = document.querySelector<HTMLElement>('#card-label')!
 const routeName = document.querySelector<HTMLElement>('#route-name')!
 const routeList = document.querySelector<HTMLUListElement>('#route-list')!
+const collapseCard = document.querySelector<HTMLButtonElement>('#collapse-card')!
 const closeCard = document.querySelector<HTMLButtonElement>('#close-card')!
 const mapShell = document.querySelector<HTMLElement>('.map-shell')!
 const listView = document.querySelector<HTMLElement>('#list-view')!
@@ -24,10 +25,30 @@ type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
 type StationRoute = { route_id: string; name: string; status: string; has_access: boolean }
 type StopCollection = { features: Array<{ properties?: { bike_access_level?: unknown } }> }
+type AccessLevel = 'all' | 'some' | 'boxed' | 'none'
 
 let routeInfoPromise: Promise<RouteInfo[]> | undefined
 let networkSummaryPromise: Promise<string> | undefined
 let stopRenderVersion = 0
+
+function expandRouteCard(): void {
+  routeCard.classList.remove('is-collapsed')
+  collapseCard.textContent = '−'
+  collapseCard.setAttribute('aria-expanded', 'true')
+  collapseCard.setAttribute('aria-label', 'Collapse details')
+}
+
+function routeAccessLevel(route: RouteInfo): AccessLevel {
+  const access = Number(route.properties.bike_access_count)
+  const noAccess = Number(route.properties.bike_no_access_count)
+  if (access > 0 && noAccess === 0) return 'all'
+  if (access === 0) return 'none'
+  return 'some'
+}
+
+function setCardAccessLevel(level: AccessLevel): void {
+  routeCard.dataset.accessLevel = level
+}
 
 function loadRouteInfo(): Promise<RouteInfo[]> {
   routeInfoPromise ??= fetch('/amtrak-route-summaries.json').then(async (response) => {
@@ -274,8 +295,11 @@ function routeRow(route: StationRoute, detailsRoute?: RouteInfo): HTMLLIElement 
 
 function showRoutes(features: MapFeatureDetails[]): void {
   stopRenderVersion += 1
+  expandRouteCard()
   const routes = [...new Map(features.map((feature) => [String(feature.properties.route_id), feature])).values()]
     .sort((left, right) => left.name.localeCompare(right.name))
+  const accessLevels = new Set(routes.map(routeAccessLevel))
+  setCardAccessLevel(accessLevels.size === 1 ? [...accessLevels][0] : 'some')
   controller.setTransitRouteEmphasis(routes.map((route) => String(route.properties.route_id)))
   routeCard.classList.add('route-card-mode')
   routeCard.classList.remove('station-card-mode')
@@ -323,8 +347,13 @@ async function populateRouteList(): Promise<void> {
 
 async function showStop(feature: MapFeatureDetails): Promise<void> {
   const renderVersion = ++stopRenderVersion
+  expandRouteCard()
   routeCard.classList.add('station-card-mode')
   routeCard.classList.remove('route-card-mode')
+  const accessLevel = feature.properties.bike_access_level
+  setCardAccessLevel(
+    accessLevel === 'all' || accessLevel === 'some' || accessLevel === 'boxed' ? accessLevel : 'none',
+  )
   cardLabel.textContent = 'Amtrak station'
   routeName.textContent = feature.name
   routeList.textContent = 'Loading service details…'
@@ -410,6 +439,12 @@ const controller = createTrailheadMap({
 mapElement.querySelector('.olmap-location-control')?.remove()
 
 closeCard.addEventListener('click', () => controller.clearSelection())
+collapseCard.addEventListener('click', () => {
+  const collapsed = routeCard.classList.toggle('is-collapsed')
+  collapseCard.textContent = collapsed ? '+' : '−'
+  collapseCard.setAttribute('aria-expanded', String(!collapsed))
+  collapseCard.setAttribute('aria-label', collapsed ? 'Expand details' : 'Collapse details')
+})
 type View = 'map' | 'list' | 'faq'
 
 function setView(view: View, updateHistory = true): void {
