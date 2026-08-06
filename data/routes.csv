@@ -1,4 +1,4 @@
-route_name,carry_on,checked,reservation_required,tire_width,remove_wheel
+route_name,carry_on,checked,reservation_required,tire_width,remove_wheel,route_note
 Crescent,no,yes,,,
 Hiawatha Service,no,yes,,,
 Wolverine,yes,no,,,
@@ -8,7 +8,7 @@ Gold Runner,yes,yes,no,2.5,
 Northeast Regional,yes,no,,,yes
 Empire Service,yes,no,,,yes
 Auto Train,no,no,,,
-Empire Builder,no,yes,,,
+Empire Builder,no,yes,,,,"Bicycle reservations only available on train 7/8, not train 27/28."
 Southwest Chief,no,yes,,,
 Pere Marquette,no,yes,,,
 Illini,yes,no,,,

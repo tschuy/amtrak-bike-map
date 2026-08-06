@@ -203,7 +203,7 @@ function routeContent(route: RouteInfo, includeTitle = true, stationSubview = fa
     requirements.append(wheelWarning)
   }
 
-  const note = route.properties.service_note
+  const note = route.properties.route_note
   if (typeof note === 'string' && note.trim()) {
     const noteElement = document.createElement('p')
     noteElement.className = 'service-note'

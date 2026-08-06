@@ -146,7 +146,7 @@ def main() -> None:
             "reservation_required": services.get("reservation_required", ""),
             "tire_width": services.get("tire_width", ""),
             "remove_wheel": services.get("remove_wheel", ""),
-            "service_note": services.get("note", ""),
+            "route_note": services.get("route_note", ""),
         }
     for shape_id, route_id in sorted(shape_routes.items()):
         coordinates = [coordinate for _, coordinate in sorted(points[shape_id])]
