@@ -25,11 +25,72 @@ type RouteInfo = Pick<MapFeatureDetails, 'name' | 'properties'>
 type BikeStation = { code: string; name: string; status: string; has_access: boolean }
 type StationRoute = { route_id: string; name: string; status: string; has_access: boolean }
 type StopCollection = { features: Array<{ properties?: { bike_access_level?: unknown } }> }
+type StationLabel = { name: string; coordinate: [number, number] }
 type AccessLevel = 'all' | 'some' | 'boxed' | 'none'
 
 let routeInfoPromise: Promise<RouteInfo[]> | undefined
 let networkSummaryPromise: Promise<string> | undefined
+let stationLabelsPromise: Promise<StationLabel[]> | undefined
 let stopRenderVersion = 0
+
+const stationLabelLayer = document.createElement('div')
+stationLabelLayer.className = 'station-label-layer'
+
+function stationLabelName(name: string): string {
+  return name.replace(/\s+Amtrak(?: Station)?$/i, '')
+}
+
+function loadStationLabels(): Promise<StationLabel[]> {
+  stationLabelsPromise ??= fetch('/amtrak-stops.geojson').then(async (response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    const data = await response.json() as {
+      features: Array<{
+        properties?: { stop_name?: unknown }
+        geometry?: { type?: unknown; coordinates?: unknown }
+      }>
+    }
+    return data.features.flatMap(({ properties, geometry }) => {
+      const coordinates = geometry?.coordinates
+      if (geometry?.type !== 'Point' || !Array.isArray(coordinates)
+        || typeof coordinates[0] !== 'number' || typeof coordinates[1] !== 'number') return []
+      const name = properties?.stop_name
+      if (typeof name !== 'string') return []
+      const longitude = coordinates[0]
+      const latitude = Math.max(-85.05112878, Math.min(85.05112878, coordinates[1]))
+      const earthRadius = 6378137
+      return [{
+        name: stationLabelName(name),
+        coordinate: [
+          earthRadius * longitude * Math.PI / 180,
+          earthRadius * Math.log(Math.tan(Math.PI / 4 + latitude * Math.PI / 360)),
+        ],
+      } satisfies StationLabel]
+    })
+  })
+  return stationLabelsPromise
+}
+
+async function renderStationLabels(view: { center: [number, number]; zoom: number }): Promise<void> {
+  if (view.zoom < 8) {
+    stationLabelLayer.replaceChildren()
+    return
+  }
+  const labels = await loadStationLabels().catch(() => [])
+  const width = mapElement.clientWidth
+  const height = mapElement.clientHeight
+  const resolution = 156543.03392804097 / 2 ** view.zoom
+  const fragment = document.createDocumentFragment()
+  for (const station of labels) {
+    const x = (station.coordinate[0] - view.center[0]) / resolution + width / 2
+    const y = (view.center[1] - station.coordinate[1]) / resolution + height / 2
+    if (x < -160 || x > width || y < -20 || y > height + 20) continue
+    const label = document.createElement('span')
+    label.textContent = station.name
+    label.style.transform = `translate(${x + 13}px, ${y}px) translateY(-50%)`
+    fragment.append(label)
+  }
+  stationLabelLayer.replaceChildren(fragment)
+}
 
 function expandRouteCard(): void {
   routeCard.classList.remove('is-collapsed')
@@ -374,6 +435,7 @@ async function showStop(feature: MapFeatureDetails): Promise<void> {
 }
 
 function handleEvent(event: TrailheadMapEvent): void {
+  if (event.type === 'view-change' || event.type === 'move-end') void renderStationLabels(event.view)
   if (event.type === 'layer-progress') {
     if (event.layer.status === 'ready') void loadNetworkSummary().then((summary) => {
       statusElement.textContent = summary
@@ -437,6 +499,8 @@ const controller = createTrailheadMap({
 })
 
 mapElement.querySelector('.olmap-location-control')?.remove()
+mapElement.append(stationLabelLayer)
+void renderStationLabels(controller.getState().view)
 
 closeCard.addEventListener('click', () => controller.clearSelection())
 collapseCard.addEventListener('click', () => {
